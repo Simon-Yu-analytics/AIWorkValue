@@ -24,7 +24,7 @@
     {
       "path": "README.md",
       "bytes": 10588,
-      "sha256": "300cee17345252cbb5a20e49565dc4e59759ec0e0196e462d3bafecf24477485"
+      "sha256": "bfa7f4cb55f3b024f9f5f4de25df0ca58784ff07ea13c436a1865746d1a76e2a"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -72,9 +72,9 @@
       "sha256": "eaae6538858faeb5b9d26e7b26f7be92d7da33ce2928b9e3ababb598fee93be0"
     },
     {
-      "path": "docs/中文学习与答辩指南.md",
-      "bytes": 6662,
-      "sha256": "7173253da797ac86468da8a4321abd917ccc52b15ded111f93c4a50b2695a58b"
+      "path": "docs/WALKTHROUGH.md",
+      "bytes": 4754,
+      "sha256": "34cfba7a064ca485a65c3e8e487f35885be0292e504520483ebed3d74f520fc3"
     },
     {
       "path": "figures/01_sample_flow.png",
@@ -128,8 +128,8 @@
     },
     {
       "path": "notebooks/01_experiment_to_business.ipynb",
-      "bytes": 14813,
-      "sha256": "ec3f1c497c23f441aee02d4b8487ba370734cf059fd29c4eb8a08b1cb882087c"
+      "bytes": 15255,
+      "sha256": "20ee9669c980817694f8798ba0c4d3b96059f48698e01a155695e97082889c6f"
     },
     {
       "path": "reports/AIWorkValue_Research_Report.pdf",
@@ -188,8 +188,8 @@
     },
     {
       "path": "scripts/build_notebook.py",
-      "bytes": 7516,
-      "sha256": "c834aa91443c2c6312b7204a5720f2e81043d20b474db8b5fec3e73bc93d345f"
+      "bytes": 7958,
+      "sha256": "8a1a8542e94e9afcf6e72361ac05574390466e67abeaaaac32aeab50e458dea9"
     },
     {
       "path": "scripts/build_report.py",

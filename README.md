@@ -121,13 +121,13 @@ sql/              analysis views, core queries and supporting checks
 src/aiworkvalue/   data reconstruction, models and business calculations
 reports/          PDF, business summary, SQL findings and aggregate outputs
 figures/          eight main plots plus the task-extension chart
-docs/             scope, assumptions, methods and Chinese walkthrough
+docs/             scope, assumptions, methods and project walkthrough
 data/             source manifest; raw/ and processed/ stay local
 scripts/          download, analysis and artifact builders
 tests/            calculation and boundary tests
 ```
 
-The [Chinese walkthrough](docs/中文学习与答辩指南.md) provides a suggested learning path. The [research card](docs/RESEARCH_CARD.md) and [analysis plan](docs/ANALYSIS_PLAN.md) contain additional detail.
+The [project walkthrough](docs/WALKTHROUGH.md) provides a suggested reading and reproduction path. The [research card](docs/RESEARCH_CARD.md) and [analysis plan](docs/ANALYSIS_PLAN.md) contain additional detail.
 
 ## Data and limitations
 

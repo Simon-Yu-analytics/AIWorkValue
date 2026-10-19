@@ -1,10 +1,12 @@
 PYTHON ?= python3
 export PYTHONPATH := src:$(PYTHONPATH)
-.PHONY: download run test report notebook check package
+.PHONY: download run sql test report notebook check package
 download:
 	$(PYTHON) scripts/download_data.py
 run:
 	$(PYTHON) scripts/run_analysis.py
+	$(PYTHON) scripts/run_sql.py
+sql:
 	$(PYTHON) scripts/run_sql.py
 test:
 	$(PYTHON) -m unittest discover -s tests -v

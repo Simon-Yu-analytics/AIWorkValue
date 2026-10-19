@@ -1,14 +1,15 @@
 # AIWorkValue
 
-[**Read the 10-page research report →**](reports/AIWorkValue_Research_Report.pdf) · [Executive decision memo](reports/Executive_Memo.md) · [Explore the executed notebook](notebooks/01_experiment_to_business.ipynb) · [Research card](docs/RESEARCH_CARD.md)
+[**Read the 10-page research report →**](reports/AIWorkValue_Research_Report.pdf) · [Executive decision memo](reports/Executive_Memo.md) · [Explore the executed notebook](notebooks/01_experiment_to_business.ipynb) · [SQL analysis](reports/SQL_Analysis.md) · [Research card](docs/RESEARCH_CARD.md)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Offline quality gates](https://github.com/Simon-Yu-analytics/AIWorkValue/actions/workflows/ci.yml/badge.svg)](https://github.com/Simon-Yu-analytics/AIWorkValue/actions/workflows/ci.yml)
 
 **A business analytics research project connecting generative AI's effects on writing time and quality to an enterprise adoption decision.**
 
 AIWorkValue examines a practical investment question: **when does an AI writing tool create enough usable capacity to justify its cost?** It combines an independent reanalysis of a public randomized experiment with a transparent commercial extension.
 
-The repository includes a reconstructed 453-participant sample, baseline-adjusted statistical models, robustness and heterogeneity analysis, SQL summaries, an executed notebook, eight reproducible figures, a 10-page report, seven Python tests and an automated offline quality gate.
+The repository includes a reconstructed 453-participant sample, baseline-adjusted statistical models, robustness and heterogeneity analysis, ten named SQL analyses plus four introductory queries, an executed notebook, eight reproducible figures, a 10-page report, eleven Python tests and an automated offline quality gate.
 
 The original experiment and data collection were conducted by **Shakked Noy and Whitney Zhang**. This project's contribution is independent reanalysis, method comparison and business interpretation. Commercial scenarios are explicitly hypothetical.
 
@@ -26,6 +27,7 @@ The original experiment and data collection were conducted by **Shakked Noy and 
 - [Visual analysis and report](#visual-analysis-and-report)
 - [Technical decisions](#technical-decisions)
 - [What is implemented](#what-is-implemented)
+- [SQL analysis](#sql-analysis)
 - [Commercial decision](#commercial-decision)
 - [Reproduce the project](#reproduce-the-project)
 - [Repository layout](#repository-layout)
@@ -137,7 +139,17 @@ The [research card](docs/RESEARCH_CARD.md) summarizes intended use and evidence 
 - Executed, editable [notebook](notebooks/01_experiment_to_business.ipynb) covering sample checks, SQL, regression and scenarios.
 - English report and [executive memo](reports/Executive_Memo.md).
 - [Chinese learning and interview guide](docs/中文学习与答辩指南.md) for understanding and personally extending the analysis.
-- Seven focused mathematical tests, artifact validation and GitHub Actions checks without participant-data downloads.
+- Eleven focused mathematical tests, artifact validation and GitHub Actions checks without participant-data downloads.
+
+## SQL analysis
+
+The [SQL layer](sql/README.md) goes beyond group means: ten named analyses cover the sample funnel, outcome coverage, baseline balance, paired changes, design coverage, adoption, business scenarios, operating break-even boundaries, a 36-point sensitivity grid and seven data-quality invariants. The original four introductory queries are retained.
+
+- **Methods:** reusable views, CTEs, self-joins, conditional aggregation, `UNION ALL`, `LAG`, `FIRST_VALUE` and partitioned window totals.
+- **Decision output:** SQL independently calculates capacity value, recurring cost, a seat-cost ceiling, review-time limits and minimum task volume from explicit assumptions and the Python-estimated time effect.
+- **Cross-check:** all three named business cases and all 36 sensitivity points must match the independent Python calculations. Tests cover missing pairs, follow-up nonresponse, sample-variance standardization and zero-seat boundaries.
+
+Read the generated **[SQL analysis report](reports/SQL_Analysis.md)** or inspect [all aggregate SQL results](reports/sql-summaries.json). SQL's unadjusted paired changes are descriptive; adjusted regression and robust uncertainty remain in Python. The SQL extension was added after the primary estimates were known and is not a new preregistration.
 
 ## Commercial decision
 
@@ -162,13 +174,14 @@ python -m pip install -r requirements.txt
 make check
 ```
 
-`make check` runs seven focused tests and validates the committed aggregate results, executed notebook, figures and report. It does not require the original participant data. Dependency installation requires internet access.
+`make check` runs eleven focused tests and validates the committed aggregate results, executed notebook, figures and report. It does not require the original participant data. Dependency installation requires internet access.
 
 To rebuild from the original research materials:
 
 ```bash
 make download   # download source files and verify recorded hashes
 make run        # reconstruct the sample, fit models and run SQL
+make sql        # rerun just the 10-query SQL analysis layer
 make report     # regenerate eight figures and the 10-page PDF
 make notebook   # regenerate and execute the walkthrough
 make check
@@ -197,11 +210,12 @@ AIWorkValue/
 │   ├── Executive_Memo.md
 │   ├── results.json               statistical and commercial aggregate outputs
 │   ├── data-audit.json            numbered sample flow
-│   └── sql-summaries.json         aggregate SQL tables
+│   ├── SQL_Analysis.md            SQL findings and commercial boundaries
+│   └── sql-summaries.json         14 result sets and Python/SQL reconciliation
 ├── scripts/                       download, analysis, reporting and packaging
-├── sql/study_analysis.sql         descriptive analysis queries
+├── sql/                           views, 10 named analyses and 4 introductory queries
 ├── src/aiworkvalue/               reconstruction, estimation and value model
-├── tests/                         seven mathematical and boundary checks
+├── tests/                         eleven mathematical and boundary checks
 ├── LICENSE
 ├── THIRD_PARTY_NOTICES.md
 ├── Makefile

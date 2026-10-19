@@ -1,148 +1,1002 @@
-[
-  {
-    "sql": "SELECT assignment,COUNT(*) AS participants,\n ROUND(AVG(time_pre),2) AS mean_baseline_minutes,\n ROUND(AVG(time_post),2) AS mean_post_minutes,\n ROUND(AVG(grade_pre),3) AS mean_baseline_grade,\n ROUND(AVG(grade_post),3) AS mean_post_grade\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
-    "rows": [
-      {
-        "assignment": 0,
-        "participants": 187,
-        "mean_baseline_minutes": 28.97,
-        "mean_post_minutes": 27.04,
-        "mean_baseline_grade": 3.97,
-        "mean_post_grade": 3.83
-      },
-      {
-        "assignment": 1,
-        "participants": 172,
-        "mean_baseline_minutes": 29.8,
-        "mean_post_minutes": 16.93,
-        "mean_baseline_grade": 3.969,
-        "mean_post_grade": 4.518
-      }
-    ]
-  },
-  {
-    "sql": "SELECT assignment,COUNT(*) AS retained_primary_arm,\n SUM(time_pre IS NOT NULL AND time_post IS NOT NULL) AS valid_time_pairs,\n SUM(grade_pre IS NOT NULL AND grade_post IS NOT NULL) AS valid_quality_pairs\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
-    "rows": [
-      {
-        "assignment": 0,
-        "retained_primary_arm": 187,
-        "valid_time_pairs": 180,
-        "valid_quality_pairs": 186
-      },
-      {
-        "assignment": 1,
-        "retained_primary_arm": 172,
-        "valid_time_pairs": 166,
-        "valid_quality_pairs": 166
-      }
-    ]
-  },
-  {
-    "sql": "SELECT assignment,COUNT(used_ai) AS usage_respondents,ROUND(AVG(used_ai),3) AS experimental_use,\n COUNT(followup_used_ai) AS followup_respondents,\n ROUND(AVG(followup_used_ai),3) AS workplace_use_among_followup_respondents\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
-    "rows": [
-      {
-        "assignment": 0,
-        "usage_respondents": 187,
-        "experimental_use": 0.107,
-        "followup_respondents": 167,
-        "workplace_use_among_followup_respondents": 0.186
-      },
-      {
-        "assignment": 1,
-        "usage_respondents": 170,
-        "experimental_use": 0.818,
-        "followup_respondents": 149,
-        "workplace_use_among_followup_respondents": 0.342
-      }
-    ]
-  },
-  {
-    "sql": "SELECT occupation,assignment,COUNT(*) AS participants,\n ROUND(AVG(time_post-time_pre),2) AS mean_time_change,\n ROUND(AVG(grade_post-grade_pre),3) AS mean_quality_change\nFROM participants WHERE primary_arm=1\nGROUP BY occupation,assignment ORDER BY occupation,assignment",
-    "rows": [
-      {
-        "occupation": "HR professional",
-        "assignment": 0,
-        "participants": 11,
-        "mean_time_change": -4.1,
-        "mean_quality_change": 0.067
-      },
-      {
-        "occupation": "HR professional",
-        "assignment": 1,
-        "participants": 15,
-        "mean_time_change": -17.73,
-        "mean_quality_change": 0.25
-      },
-      {
-        "occupation": "consultant",
-        "assignment": 0,
-        "participants": 27,
-        "mean_time_change": -2.46,
-        "mean_quality_change": -0.435
-      },
-      {
-        "occupation": "consultant",
-        "assignment": 1,
-        "participants": 19,
-        "mean_time_change": -8.22,
-        "mean_quality_change": 0.52
-      },
-      {
-        "occupation": "data analyst",
-        "assignment": 0,
-        "participants": 23,
-        "mean_time_change": -2.3,
-        "mean_quality_change": -0.159
-      },
-      {
-        "occupation": "data analyst",
-        "assignment": 1,
-        "participants": 19,
-        "mean_time_change": -10.59,
-        "mean_quality_change": 0.319
-      },
-      {
-        "occupation": "grant writer",
-        "assignment": 0,
-        "participants": 31,
-        "mean_time_change": -4.95,
-        "mean_quality_change": -0.166
-      },
-      {
-        "occupation": "grant writer",
-        "assignment": 1,
-        "participants": 35,
-        "mean_time_change": -18.6,
-        "mean_quality_change": 0.124
-      },
-      {
-        "occupation": "manager",
-        "assignment": 0,
-        "participants": 79,
-        "mean_time_change": -0.93,
-        "mean_quality_change": -0.049
-      },
-      {
-        "occupation": "manager",
-        "assignment": 1,
-        "participants": 67,
-        "mean_time_change": -11.76,
-        "mean_quality_change": 0.954
-      },
-      {
-        "occupation": "marketer",
-        "assignment": 0,
-        "participants": 16,
-        "mean_time_change": 0.5,
-        "mean_quality_change": -0.146
-      },
-      {
-        "occupation": "marketer",
-        "assignment": 1,
-        "participants": 17,
-        "mean_time_change": -7.47,
-        "mean_quality_change": 0.309
-      }
-    ]
+{
+  "schema_version": 2,
+  "engine": "SQLite",
+  "sqlite_version": "3.53.1",
+  "boundary": "Descriptive SQL comparisons; adjusted inference is estimated in Python. Commercial values are hypothetical capacity value.",
+  "queries": [
+    {
+      "query": "01_sample_funnel",
+      "sql": "-- Window function: records removed at each documented reconstruction stage.\n-- The first row is raw survey records, not a randomized-participant denominator.\nWITH stages AS (\n    SELECT *, LAG(n) OVER (ORDER BY stage_order) AS previous_n,\n           FIRST_VALUE(n) OVER (ORDER BY stage_order) AS raw_n\n    FROM analysis_sample_flow\n)\nSELECT stage_order, stage, n,\n       previous_n - n AS excluded_at_stage,\n       ROUND(100.0 * n / NULLIF(previous_n, 0), 2) AS percent_retained_from_previous,\n       ROUND(100.0 * n / NULLIF(raw_n, 0), 2) AS percent_of_raw_records\nFROM stages ORDER BY stage_order;\n",
+      "rows": [
+        {
+          "stage_order": 1,
+          "stage": "raw_survey_records",
+          "n": 786,
+          "excluded_at_stage": null,
+          "percent_retained_from_previous": null,
+          "percent_of_raw_records": 100.0
+        },
+        {
+          "stage_order": 2,
+          "stage": "completed_and_not_declined",
+          "n": 523,
+          "excluded_at_stage": 263,
+          "percent_retained_from_previous": 66.54,
+          "percent_of_raw_records": 66.54
+        },
+        {
+          "stage_order": 3,
+          "stage": "unique_first_submission",
+          "n": 505,
+          "excluded_at_stage": 18,
+          "percent_retained_from_previous": 96.56,
+          "percent_of_raw_records": 64.25
+        },
+        {
+          "stage_order": 4,
+          "stage": "documented_first_task_and_duplicate_flags",
+          "n": 499,
+          "excluded_at_stage": 6,
+          "percent_retained_from_previous": 98.81,
+          "percent_of_raw_records": 63.49
+        },
+        {
+          "stage_order": 5,
+          "stage": "author_quality_check",
+          "n": 457,
+          "excluded_at_stage": 42,
+          "percent_retained_from_previous": 91.58,
+          "percent_of_raw_records": 58.14
+        },
+        {
+          "stage_order": 6,
+          "stage": "exclude_prior_graders",
+          "n": 453,
+          "excluded_at_stage": 4,
+          "percent_retained_from_previous": 99.12,
+          "percent_of_raw_records": 57.63
+        }
+      ]
+    },
+    {
+      "query": "02_group_coverage",
+      "sql": "-- Conditional aggregation preserves denominators and exposes missing pairs.\nSELECT assignment, COUNT(*) AS retained_primary_arm,\n       SUM(time_pre IS NOT NULL AND time_post IS NOT NULL) AS time_pairs,\n       SUM(grade_pre IS NOT NULL AND grade_post IS NOT NULL) AS quality_pairs,\n       ROUND(100.0 * SUM(time_pre IS NOT NULL AND time_post IS NOT NULL) / COUNT(*), 2) AS time_pair_coverage_pct,\n       ROUND(100.0 * SUM(grade_pre IS NOT NULL AND grade_post IS NOT NULL) / COUNT(*), 2) AS quality_pair_coverage_pct,\n       SUM(time_pre IS NULL OR time_post IS NULL) AS missing_time_pairs,\n       SUM(grade_pre IS NULL OR grade_post IS NULL) AS missing_quality_pairs\nFROM participants WHERE primary_arm = 1 GROUP BY assignment ORDER BY assignment;\n",
+      "rows": [
+        {
+          "assignment": 0,
+          "retained_primary_arm": 187,
+          "time_pairs": 180,
+          "quality_pairs": 186,
+          "time_pair_coverage_pct": 96.26,
+          "quality_pair_coverage_pct": 99.47,
+          "missing_time_pairs": 7,
+          "missing_quality_pairs": 1
+        },
+        {
+          "assignment": 1,
+          "retained_primary_arm": 172,
+          "time_pairs": 166,
+          "quality_pairs": 166,
+          "time_pair_coverage_pct": 96.51,
+          "quality_pair_coverage_pct": 96.51,
+          "missing_time_pairs": 6,
+          "missing_quality_pairs": 6
+        }
+      ]
+    },
+    {
+      "query": "03_baseline_balance",
+      "sql": "-- Balance diagnostic among retained primary-arm cases with observed baseline.\n-- SMD = (AI mean - control mean) / sqrt((AI sample variance + control sample variance) / 2).\n-- This does not prove balance in all randomized participants or remove attrition bias.\nWITH baseline_long AS (\n    SELECT assignment, 'time_minutes' AS outcome, time_pre AS baseline\n    FROM participants WHERE primary_arm = 1 AND time_pre IS NOT NULL\n    UNION ALL\n    SELECT assignment, 'quality_points', grade_pre\n    FROM participants WHERE primary_arm = 1 AND grade_pre IS NOT NULL\n), moments AS (\n    SELECT outcome, assignment, COUNT(*) AS n, AVG(baseline) AS mean,\n           (SUM(baseline * baseline) - SUM(baseline) * SUM(baseline) / COUNT(*))\n               / NULLIF(COUNT(*) - 1, 0) AS sample_variance\n    FROM baseline_long GROUP BY outcome, assignment\n), paired AS (\n    SELECT c.outcome, c.n AS control_n, a.n AS ai_n,\n           c.mean AS control_mean, a.mean AS ai_mean,\n           (c.sample_variance + a.sample_variance) / 2.0 AS pooled_variance\n    FROM moments AS c JOIN moments AS a ON c.outcome = a.outcome\n    WHERE c.assignment = 0 AND a.assignment = 1\n)\nSELECT outcome, control_n, ai_n, control_mean, ai_mean,\n       ai_mean - control_mean AS baseline_mean_difference,\n       CASE WHEN pooled_variance > 0\n            THEN (ai_mean - control_mean) / SQRT(pooled_variance) END AS standardized_mean_difference\nFROM paired ORDER BY outcome;\n",
+      "rows": [
+        {
+          "outcome": "quality_points",
+          "control_n": 186,
+          "ai_n": 166,
+          "control_mean": 3.9696236559139786,
+          "ai_mean": 3.968875502008032,
+          "baseline_mean_difference": -0.0007481539059464026,
+          "standardized_mean_difference": -0.0005852840315863421
+        },
+        {
+          "outcome": "time_minutes",
+          "control_n": 180,
+          "ai_n": 167,
+          "control_mean": 28.969444444444445,
+          "ai_mean": 29.802395209580837,
+          "baseline_mean_difference": 0.8329507651363919,
+          "standardized_mean_difference": 0.05707506141260815
+        }
+      ]
+    },
+    {
+      "query": "04_paired_changes",
+      "sql": "-- Descriptive changes use exactly the same baseline/post pairs within each outcome.\n-- This unadjusted difference in changes is not the Python ANCOVA coefficient.\nWITH group_changes AS (\n    SELECT outcome, assignment, COUNT(*) AS n,\n           AVG(baseline) AS baseline_mean, AVG(post) AS post_mean,\n           AVG(post - baseline) AS mean_change\n    FROM v_outcome_pairs GROUP BY outcome, assignment\n)\nSELECT c.outcome, c.n AS control_n, a.n AS ai_n,\n       c.baseline_mean AS control_baseline, a.baseline_mean AS ai_baseline,\n       c.post_mean AS control_post, a.post_mean AS ai_post,\n       c.mean_change AS control_change, a.mean_change AS ai_change,\n       a.mean_change - c.mean_change AS unadjusted_difference_in_changes\nFROM group_changes AS c JOIN group_changes AS a ON c.outcome = a.outcome\nWHERE c.assignment = 0 AND a.assignment = 1 ORDER BY c.outcome;\n",
+      "rows": [
+        {
+          "outcome": "quality_points",
+          "control_n": 186,
+          "ai_n": 166,
+          "control_baseline": 3.9696236559139786,
+          "ai_baseline": 3.968875502008032,
+          "control_post": 3.829569892473118,
+          "ai_post": 4.517570281124498,
+          "control_change": -0.1400537634408602,
+          "ai_change": 0.5486947791164659,
+          "unadjusted_difference_in_changes": 0.6887485425573261
+        },
+        {
+          "outcome": "time_minutes",
+          "control_n": 180,
+          "ai_n": 166,
+          "control_baseline": 28.969444444444445,
+          "ai_baseline": 29.680722891566266,
+          "control_post": 26.883333333333333,
+          "ai_post": 16.83132530120482,
+          "control_change": -2.0861111111111112,
+          "ai_change": -12.849397590361447,
+          "unadjusted_difference_in_changes": -10.763286479250336
+        }
+      ]
+    },
+    {
+      "query": "05_design_coverage",
+      "sql": "-- Window totals expose treatment shares and task-order mix within retained strata.\n-- These are descriptive diagnostics, not occupation-level causal rankings.\nWITH counts AS (\n    SELECT occupation, incentive_arm, assignment, COUNT(*) AS n,\n           SUM(a_first = 1) AS task_a_first\n    FROM participants WHERE primary_arm = 1\n    GROUP BY occupation, incentive_arm, assignment\n)\nSELECT *, SUM(n) OVER (PARTITION BY occupation, incentive_arm) AS stratum_n,\n       ROUND(100.0 * n / SUM(n) OVER (PARTITION BY occupation, incentive_arm), 2) AS assignment_share_pct,\n       ROUND(100.0 * task_a_first / n, 2) AS task_a_first_pct\nFROM counts ORDER BY occupation, incentive_arm, assignment;\n",
+      "rows": [
+        {
+          "occupation": "HR professional",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 6,
+          "task_a_first": 3,
+          "stratum_n": 17,
+          "assignment_share_pct": 35.29,
+          "task_a_first_pct": 50.0
+        },
+        {
+          "occupation": "HR professional",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 11,
+          "task_a_first": 3,
+          "stratum_n": 17,
+          "assignment_share_pct": 64.71,
+          "task_a_first_pct": 27.27
+        },
+        {
+          "occupation": "HR professional",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 5,
+          "task_a_first": 3,
+          "stratum_n": 9,
+          "assignment_share_pct": 55.56,
+          "task_a_first_pct": 60.0
+        },
+        {
+          "occupation": "HR professional",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 4,
+          "task_a_first": 3,
+          "stratum_n": 9,
+          "assignment_share_pct": 44.44,
+          "task_a_first_pct": 75.0
+        },
+        {
+          "occupation": "consultant",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 13,
+          "task_a_first": 9,
+          "stratum_n": 24,
+          "assignment_share_pct": 54.17,
+          "task_a_first_pct": 69.23
+        },
+        {
+          "occupation": "consultant",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 11,
+          "task_a_first": 6,
+          "stratum_n": 24,
+          "assignment_share_pct": 45.83,
+          "task_a_first_pct": 54.55
+        },
+        {
+          "occupation": "consultant",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 14,
+          "task_a_first": 6,
+          "stratum_n": 22,
+          "assignment_share_pct": 63.64,
+          "task_a_first_pct": 42.86
+        },
+        {
+          "occupation": "consultant",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 8,
+          "task_a_first": 5,
+          "stratum_n": 22,
+          "assignment_share_pct": 36.36,
+          "task_a_first_pct": 62.5
+        },
+        {
+          "occupation": "data analyst",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 10,
+          "task_a_first": 7,
+          "stratum_n": 20,
+          "assignment_share_pct": 50.0,
+          "task_a_first_pct": 70.0
+        },
+        {
+          "occupation": "data analyst",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 10,
+          "task_a_first": 4,
+          "stratum_n": 20,
+          "assignment_share_pct": 50.0,
+          "task_a_first_pct": 40.0
+        },
+        {
+          "occupation": "data analyst",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 13,
+          "task_a_first": 8,
+          "stratum_n": 22,
+          "assignment_share_pct": 59.09,
+          "task_a_first_pct": 61.54
+        },
+        {
+          "occupation": "data analyst",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 9,
+          "task_a_first": 3,
+          "stratum_n": 22,
+          "assignment_share_pct": 40.91,
+          "task_a_first_pct": 33.33
+        },
+        {
+          "occupation": "grant writer",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 20,
+          "task_a_first": 11,
+          "stratum_n": 42,
+          "assignment_share_pct": 47.62,
+          "task_a_first_pct": 55.0
+        },
+        {
+          "occupation": "grant writer",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 22,
+          "task_a_first": 12,
+          "stratum_n": 42,
+          "assignment_share_pct": 52.38,
+          "task_a_first_pct": 54.55
+        },
+        {
+          "occupation": "grant writer",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 11,
+          "task_a_first": 11,
+          "stratum_n": 24,
+          "assignment_share_pct": 45.83,
+          "task_a_first_pct": 100.0
+        },
+        {
+          "occupation": "grant writer",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 13,
+          "task_a_first": 5,
+          "stratum_n": 24,
+          "assignment_share_pct": 54.17,
+          "task_a_first_pct": 38.46
+        },
+        {
+          "occupation": "manager",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 41,
+          "task_a_first": 17,
+          "stratum_n": 69,
+          "assignment_share_pct": 59.42,
+          "task_a_first_pct": 41.46
+        },
+        {
+          "occupation": "manager",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 28,
+          "task_a_first": 17,
+          "stratum_n": 69,
+          "assignment_share_pct": 40.58,
+          "task_a_first_pct": 60.71
+        },
+        {
+          "occupation": "manager",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 38,
+          "task_a_first": 23,
+          "stratum_n": 77,
+          "assignment_share_pct": 49.35,
+          "task_a_first_pct": 60.53
+        },
+        {
+          "occupation": "manager",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 39,
+          "task_a_first": 18,
+          "stratum_n": 77,
+          "assignment_share_pct": 50.65,
+          "task_a_first_pct": 46.15
+        },
+        {
+          "occupation": "marketer",
+          "incentive_arm": "convex",
+          "assignment": 0,
+          "n": 7,
+          "task_a_first": 2,
+          "stratum_n": 16,
+          "assignment_share_pct": 43.75,
+          "task_a_first_pct": 28.57
+        },
+        {
+          "occupation": "marketer",
+          "incentive_arm": "convex",
+          "assignment": 1,
+          "n": 9,
+          "task_a_first": 4,
+          "stratum_n": 16,
+          "assignment_share_pct": 56.25,
+          "task_a_first_pct": 44.44
+        },
+        {
+          "occupation": "marketer",
+          "incentive_arm": "linear",
+          "assignment": 0,
+          "n": 9,
+          "task_a_first": 7,
+          "stratum_n": 17,
+          "assignment_share_pct": 52.94,
+          "task_a_first_pct": 77.78
+        },
+        {
+          "occupation": "marketer",
+          "incentive_arm": "linear",
+          "assignment": 1,
+          "n": 8,
+          "task_a_first": 6,
+          "stratum_n": 17,
+          "assignment_share_pct": 47.06,
+          "task_a_first_pct": 75.0
+        }
+      ]
+    },
+    {
+      "query": "06_adoption_and_followup",
+      "sql": "-- Report response denominators alongside usage. Missing follow-up is not a 'no'.\nSELECT assignment, COUNT(*) AS primary_arm_n,\n       COUNT(used_ai) AS experimental_usage_responses,\n       ROUND(100.0 * AVG(used_ai), 2) AS experimental_use_pct_among_responses,\n       COUNT(followup_used_ai) AS followup_responses,\n       ROUND(100.0 * COUNT(followup_used_ai) / COUNT(*), 2) AS followup_response_pct,\n       ROUND(100.0 * AVG(followup_used_ai), 2) AS followup_use_pct_among_responses\nFROM participants WHERE primary_arm = 1 GROUP BY assignment ORDER BY assignment;\n",
+      "rows": [
+        {
+          "assignment": 0,
+          "primary_arm_n": 187,
+          "experimental_usage_responses": 187,
+          "experimental_use_pct_among_responses": 10.7,
+          "followup_responses": 167,
+          "followup_response_pct": 89.3,
+          "followup_use_pct_among_responses": 18.56
+        },
+        {
+          "assignment": 1,
+          "primary_arm_n": 172,
+          "experimental_usage_responses": 170,
+          "experimental_use_pct_among_responses": 81.76,
+          "followup_responses": 149,
+          "followup_response_pct": 86.63,
+          "followup_use_pct_among_responses": 34.23
+        }
+      ]
+    },
+    {
+      "query": "07_business_scenarios",
+      "sql": "-- Independently calculate three business cases from assumptions + estimated time effect.\n-- Money is hypothetical capacity value, not cash savings. Inputs are not vendor quotes.\nSELECT scenario, offered_seats, net_minutes, capacity_hours, gross_capacity_value,\n       recurring_cost, net_capacity_value, operating_seat_cost_ceiling,\n       capacity_payback_months, effect_only_value_low, effect_only_value_high\nFROM v_business_value WHERE scenario_kind = 'named'\nORDER BY CASE scenario WHEN 'conservative' THEN 1 WHEN 'base' THEN 2 ELSE 3 END;\n",
+      "rows": [
+        {
+          "scenario": "conservative",
+          "offered_seats": 100.0,
+          "net_minutes": -0.4151320562744414,
+          "capacity_hours": -13.837735209148045,
+          "gross_capacity_value": -484.32073232018155,
+          "recurring_cost": 3000.0,
+          "net_capacity_value": -3484.3207323201814,
+          "operating_seat_cost_ceiling": -9.843207323201817,
+          "capacity_payback_months": null,
+          "effect_only_value_low": -4138.560982653229,
+          "effect_only_value_high": -2830.080481987134
+        },
+        {
+          "scenario": "base",
+          "offered_seats": 100.0,
+          "net_minutes": 3.1697358874511172,
+          "capacity_hours": 105.65786291503724,
+          "gross_capacity_value": 3698.0252020263033,
+          "recurring_cost": 3000.0,
+          "net_capacity_value": 698.0252020263033,
+          "operating_seat_cost_ceiling": 31.980252020263034,
+          "capacity_payback_months": 4.297839091326895,
+          "effect_only_value_low": -610.4552986397916,
+          "effect_only_value_high": 2006.5057026923987
+        },
+        {
+          "scenario": "upside",
+          "offered_seats": 100.0,
+          "net_minutes": 6.754603831176675,
+          "capacity_hours": 225.1534610392225,
+          "gross_capacity_value": 7880.371136372787,
+          "recurring_cost": 3000.0,
+          "net_capacity_value": 4880.371136372787,
+          "operating_seat_cost_ceiling": 73.80371136372787,
+          "capacity_payback_months": 0.6147073483082834,
+          "effect_only_value_low": 2917.650385373646,
+          "effect_only_value_high": 6843.091887371931
+        }
+      ]
+    },
+    {
+      "query": "08_break_even",
+      "sql": "-- Boundary values cover operating costs only; setup cost is handled by payback.\n-- A negative verification threshold means zero extra review is still unaffordable.\nSELECT scenario, operating_seat_cost_ceiling,\n       CASE WHEN offered_seats > 0 AND eligible_tasks_per_employee_month > 0 AND loaded_hourly_value > 0\n            THEN minutes_saved * transferability\n                 - recurring_cost * 60.0 / (offered_seats * eligible_tasks_per_employee_month * loaded_hourly_value)\n       END AS max_additional_review_minutes_at_operating_break_even,\n       CASE WHEN offered_seats > 0 AND net_minutes > 0 AND loaded_hourly_value > 0\n            THEN recurring_cost * 60.0 / (offered_seats * net_minutes * loaded_hourly_value)\n       END AS min_tasks_per_offered_employee_month_at_operating_break_even,\n       CASE WHEN offered_seats > 0 AND net_minutes > 0 AND loaded_hourly_value > 0\n            THEN 'positive per-task value' ELSE 'no positive per-task value at these assumptions'\n       END AS boundary_status\nFROM v_business_value WHERE scenario_kind = 'named' ORDER BY scenario;\n",
+      "rows": [
+        {
+          "scenario": "base",
+          "operating_seat_cost_ceiling": 31.980252020263034,
+          "max_additional_review_minutes_at_operating_break_even": 2.5983073160225456,
+          "min_tasks_per_offered_employee_month_at_operating_break_even": 16.224875905962858,
+          "boundary_status": "positive per-task value"
+        },
+        {
+          "scenario": "conservative",
+          "operating_seat_cost_ceiling": -9.843207323201817,
+          "max_additional_review_minutes_at_operating_break_even": 0.013439372296986996,
+          "min_tasks_per_offered_employee_month_at_operating_break_even": null,
+          "boundary_status": "no positive per-task value at these assumptions"
+        },
+        {
+          "scenario": "upside",
+          "operating_seat_cost_ceiling": 73.80371136372787,
+          "max_additional_review_minutes_at_operating_break_even": 5.183175259748104,
+          "min_tasks_per_offered_employee_month_at_operating_break_even": 7.613854596652547,
+          "boundary_status": "positive per-task value"
+        }
+      ]
+    },
+    {
+      "query": "09_sensitivity_grid",
+      "sql": "-- Window comparison: how much value disappears with one more verification minute?\nWITH grid AS (\n    SELECT scenario, transferability, additional_review_minutes, net_capacity_value,\n           LAG(net_capacity_value) OVER (\n               PARTITION BY transferability ORDER BY additional_review_minutes\n           ) AS previous_review_value\n    FROM v_business_value WHERE scenario_kind = 'grid'\n)\nSELECT *, net_capacity_value - previous_review_value AS change_from_previous_review_setting,\n       CASE WHEN net_capacity_value > 0 THEN 'positive capacity case'\n            ELSE 'nonpositive capacity case' END AS operating_case\nFROM grid ORDER BY transferability, additional_review_minutes;\n",
+      "rows": [
+        {
+          "scenario": "grid_00",
+          "transferability": 0.25,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 15.679267679818167,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_01",
+          "transferability": 0.25,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": -1150.9873989868483,
+          "previous_review_value": 15.679267679818167,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_02",
+          "transferability": 0.25,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": -2317.654065653515,
+          "previous_review_value": -1150.9873989868483,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_03",
+          "transferability": 0.25,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": -3484.3207323201814,
+          "previous_review_value": -2317.654065653515,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_04",
+          "transferability": 0.25,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": -4650.987398986848,
+          "previous_review_value": -3484.3207323201814,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_05",
+          "transferability": 0.25,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": -5817.654065653514,
+          "previous_review_value": -4650.987398986848,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_06",
+          "transferability": 0.4,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 1825.08682828771,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_07",
+          "transferability": 0.4,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": 658.420161621043,
+          "previous_review_value": 1825.08682828771,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_08",
+          "transferability": 0.4,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": -508.2465050456235,
+          "previous_review_value": 658.420161621043,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_09",
+          "transferability": 0.4,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": -1674.91317171229,
+          "previous_review_value": -508.2465050456235,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_10",
+          "transferability": 0.4,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": -2841.5798383789565,
+          "previous_review_value": -1674.91317171229,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_11",
+          "transferability": 0.4,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": -4008.246505045623,
+          "previous_review_value": -2841.5798383789565,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_12",
+          "transferability": 0.5,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 3031.3585353596363,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_13",
+          "transferability": 0.5,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": 1864.6918686929703,
+          "previous_review_value": 3031.3585353596363,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_14",
+          "transferability": 0.5,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": 698.0252020263033,
+          "previous_review_value": 1864.6918686929703,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_15",
+          "transferability": 0.5,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": -468.6414646403632,
+          "previous_review_value": 698.0252020263033,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_16",
+          "transferability": 0.5,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": -1635.30813130703,
+          "previous_review_value": -468.6414646403632,
+          "change_from_previous_review_setting": -1166.6666666666667,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_17",
+          "transferability": 0.5,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": -2801.9747979736967,
+          "previous_review_value": -1635.30813130703,
+          "change_from_previous_review_setting": -1166.6666666666667,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_18",
+          "transferability": 0.6,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 4237.6302424315645,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_19",
+          "transferability": 0.6,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": 3070.9635757648975,
+          "previous_review_value": 4237.6302424315645,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_20",
+          "transferability": 0.6,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": 1904.2969090982306,
+          "previous_review_value": 3070.9635757648975,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_21",
+          "transferability": 0.6,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": 737.6302424315636,
+          "previous_review_value": 1904.2969090982306,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_22",
+          "transferability": 0.6,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": -429.0364242351029,
+          "previous_review_value": 737.6302424315636,
+          "change_from_previous_review_setting": -1166.6666666666665,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_23",
+          "transferability": 0.6,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": -1595.7030909017699,
+          "previous_review_value": -429.0364242351029,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "nonpositive capacity case"
+        },
+        {
+          "scenario": "grid_24",
+          "transferability": 0.75,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 6047.037803039455,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_25",
+          "transferability": 0.75,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": 4880.371136372787,
+          "previous_review_value": 6047.037803039455,
+          "change_from_previous_review_setting": -1166.6666666666679,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_26",
+          "transferability": 0.75,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": 3713.704469706121,
+          "previous_review_value": 4880.371136372787,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_27",
+          "transferability": 0.75,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": 2547.037803039454,
+          "previous_review_value": 3713.704469706121,
+          "change_from_previous_review_setting": -1166.666666666667,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_28",
+          "transferability": 0.75,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": 1380.371136372788,
+          "previous_review_value": 2547.037803039454,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_29",
+          "transferability": 0.75,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": 213.70446970612193,
+          "previous_review_value": 1380.371136372788,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_30",
+          "transferability": 1.0,
+          "additional_review_minutes": 0.0,
+          "net_capacity_value": 9062.717070719273,
+          "previous_review_value": null,
+          "change_from_previous_review_setting": null,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_31",
+          "transferability": 1.0,
+          "additional_review_minutes": 1.0,
+          "net_capacity_value": 7896.050404052607,
+          "previous_review_value": 9062.717070719273,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_32",
+          "transferability": 1.0,
+          "additional_review_minutes": 2.0,
+          "net_capacity_value": 6729.383737385941,
+          "previous_review_value": 7896.050404052607,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_33",
+          "transferability": 1.0,
+          "additional_review_minutes": 3.0,
+          "net_capacity_value": 5562.7170707192745,
+          "previous_review_value": 6729.383737385941,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_34",
+          "transferability": 1.0,
+          "additional_review_minutes": 4.0,
+          "net_capacity_value": 4396.050404052607,
+          "previous_review_value": 5562.7170707192745,
+          "change_from_previous_review_setting": -1166.6666666666679,
+          "operating_case": "positive capacity case"
+        },
+        {
+          "scenario": "grid_35",
+          "transferability": 1.0,
+          "additional_review_minutes": 5.0,
+          "net_capacity_value": 3229.3837373859405,
+          "previous_review_value": 4396.050404052607,
+          "change_from_previous_review_setting": -1166.666666666666,
+          "operating_case": "positive capacity case"
+        }
+      ]
+    },
+    {
+      "query": "10_data_quality",
+      "sql": "-- Automated zero-count expectations: missing outcomes are allowed, invalid values are not.\nSELECT 'duplicate_participant_ids' AS check_name, COUNT(*) - COUNT(DISTINCT prolific_pid) AS violations FROM participants\nUNION ALL\nSELECT 'invalid_assignment', COUNT(*) FROM participants WHERE assignment IS NULL OR assignment NOT IN (0, 1)\nUNION ALL\nSELECT 'invalid_task_order', COUNT(*) FROM participants WHERE a_first IS NULL OR a_first NOT IN (0, 1)\nUNION ALL\nSELECT 'primary_arm_mismatch', COUNT(*) FROM participants\nWHERE primary_arm IS NULL OR primary_arm NOT IN (0, 1)\n   OR primary_arm != (incentive_arm IN ('linear', 'convex'))\nUNION ALL\nSELECT 'negative_time', COUNT(*) FROM participants WHERE time_pre < 0 OR time_post < 0\nUNION ALL\nSELECT 'out_of_range_rating', COUNT(*) FROM participants\nWHERE grade_pre < 1 OR grade_pre > 7 OR grade_post < 1 OR grade_post > 7\nUNION ALL\nSELECT 'invalid_usage', COUNT(*) FROM participants\nWHERE used_ai NOT IN (0, 1) OR followup_used_ai NOT IN (0, 1);\n",
+      "rows": [
+        {
+          "check_name": "duplicate_participant_ids",
+          "violations": 0
+        },
+        {
+          "check_name": "invalid_assignment",
+          "violations": 0
+        },
+        {
+          "check_name": "invalid_task_order",
+          "violations": 0
+        },
+        {
+          "check_name": "primary_arm_mismatch",
+          "violations": 0
+        },
+        {
+          "check_name": "negative_time",
+          "violations": 0
+        },
+        {
+          "check_name": "out_of_range_rating",
+          "violations": 0
+        },
+        {
+          "check_name": "invalid_usage",
+          "violations": 0
+        }
+      ]
+    }
+  ],
+  "introductory_queries": [
+    {
+      "sql": "SELECT assignment,COUNT(*) AS participants,\n ROUND(AVG(time_pre),2) AS mean_baseline_minutes,\n ROUND(AVG(time_post),2) AS mean_post_minutes,\n ROUND(AVG(grade_pre),3) AS mean_baseline_grade,\n ROUND(AVG(grade_post),3) AS mean_post_grade\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+      "rows": [
+        {
+          "assignment": 0,
+          "participants": 187,
+          "mean_baseline_minutes": 28.97,
+          "mean_post_minutes": 27.04,
+          "mean_baseline_grade": 3.97,
+          "mean_post_grade": 3.83
+        },
+        {
+          "assignment": 1,
+          "participants": 172,
+          "mean_baseline_minutes": 29.8,
+          "mean_post_minutes": 16.93,
+          "mean_baseline_grade": 3.969,
+          "mean_post_grade": 4.518
+        }
+      ]
+    },
+    {
+      "sql": "SELECT assignment,COUNT(*) AS retained_primary_arm,\n SUM(time_pre IS NOT NULL AND time_post IS NOT NULL) AS valid_time_pairs,\n SUM(grade_pre IS NOT NULL AND grade_post IS NOT NULL) AS valid_quality_pairs\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+      "rows": [
+        {
+          "assignment": 0,
+          "retained_primary_arm": 187,
+          "valid_time_pairs": 180,
+          "valid_quality_pairs": 186
+        },
+        {
+          "assignment": 1,
+          "retained_primary_arm": 172,
+          "valid_time_pairs": 166,
+          "valid_quality_pairs": 166
+        }
+      ]
+    },
+    {
+      "sql": "SELECT assignment,COUNT(used_ai) AS usage_respondents,ROUND(AVG(used_ai),3) AS experimental_use,\n COUNT(followup_used_ai) AS followup_respondents,\n ROUND(AVG(followup_used_ai),3) AS workplace_use_among_followup_respondents\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+      "rows": [
+        {
+          "assignment": 0,
+          "usage_respondents": 187,
+          "experimental_use": 0.107,
+          "followup_respondents": 167,
+          "workplace_use_among_followup_respondents": 0.186
+        },
+        {
+          "assignment": 1,
+          "usage_respondents": 170,
+          "experimental_use": 0.818,
+          "followup_respondents": 149,
+          "workplace_use_among_followup_respondents": 0.342
+        }
+      ]
+    },
+    {
+      "sql": "SELECT occupation,assignment,COUNT(*) AS participants,\n ROUND(AVG(time_post-time_pre),2) AS mean_time_change,\n ROUND(AVG(grade_post-grade_pre),3) AS mean_quality_change\nFROM participants WHERE primary_arm=1\nGROUP BY occupation,assignment ORDER BY occupation,assignment",
+      "rows": [
+        {
+          "occupation": "HR professional",
+          "assignment": 0,
+          "participants": 11,
+          "mean_time_change": -4.1,
+          "mean_quality_change": 0.067
+        },
+        {
+          "occupation": "HR professional",
+          "assignment": 1,
+          "participants": 15,
+          "mean_time_change": -17.73,
+          "mean_quality_change": 0.25
+        },
+        {
+          "occupation": "consultant",
+          "assignment": 0,
+          "participants": 27,
+          "mean_time_change": -2.46,
+          "mean_quality_change": -0.435
+        },
+        {
+          "occupation": "consultant",
+          "assignment": 1,
+          "participants": 19,
+          "mean_time_change": -8.22,
+          "mean_quality_change": 0.52
+        },
+        {
+          "occupation": "data analyst",
+          "assignment": 0,
+          "participants": 23,
+          "mean_time_change": -2.3,
+          "mean_quality_change": -0.159
+        },
+        {
+          "occupation": "data analyst",
+          "assignment": 1,
+          "participants": 19,
+          "mean_time_change": -10.59,
+          "mean_quality_change": 0.319
+        },
+        {
+          "occupation": "grant writer",
+          "assignment": 0,
+          "participants": 31,
+          "mean_time_change": -4.95,
+          "mean_quality_change": -0.166
+        },
+        {
+          "occupation": "grant writer",
+          "assignment": 1,
+          "participants": 35,
+          "mean_time_change": -18.6,
+          "mean_quality_change": 0.124
+        },
+        {
+          "occupation": "manager",
+          "assignment": 0,
+          "participants": 79,
+          "mean_time_change": -0.93,
+          "mean_quality_change": -0.049
+        },
+        {
+          "occupation": "manager",
+          "assignment": 1,
+          "participants": 67,
+          "mean_time_change": -11.76,
+          "mean_quality_change": 0.954
+        },
+        {
+          "occupation": "marketer",
+          "assignment": 0,
+          "participants": 16,
+          "mean_time_change": 0.5,
+          "mean_quality_change": -0.146
+        },
+        {
+          "occupation": "marketer",
+          "assignment": 1,
+          "participants": 17,
+          "mean_time_change": -7.47,
+          "mean_quality_change": 0.309
+        }
+      ]
+    }
+  ],
+  "python_sql_reconciliation": {
+    "status": "passed",
+    "business_cases": 3,
+    "sensitivity_points": 36,
+    "max_absolute_numeric_difference": 0.0
   }
-]
+}

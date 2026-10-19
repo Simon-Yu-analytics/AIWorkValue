@@ -18,13 +18,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 467,
-      "sha256": "0a7b408c0880285be1f036a2ee137ff28335dde329c83eedd807045822035dd4"
+      "bytes": 506,
+      "sha256": "c0b302f6432f17a5538415da8d42e90370c2e0f8562eb987eb6ae5c841c7c454"
     },
     {
       "path": "README.md",
-      "bytes": 16590,
-      "sha256": "969614bb0bde620d2d3c01657e2747582e54440f17648fc732b817f71dbae76e"
+      "bytes": 18281,
+      "sha256": "a73714bbc4f3f2ad1a1861a77a77b0034a338ae1708b9728ef65b4ec47d85312"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -58,8 +58,8 @@
     },
     {
       "path": "docs/中文学习与答辩指南.md",
-      "bytes": 5006,
-      "sha256": "214e4632d0a59c7697c2d9b75a7c5e16029af4216bf59847c8bd3322df30d5b2"
+      "bytes": 6369,
+      "sha256": "2c3ced8898f406e5eaa1a47db915b739f756a414af0acb83309ae0110bb24a13"
     },
     {
       "path": "figures/01_sample_flow.png",
@@ -108,8 +108,8 @@
     },
     {
       "path": "notebooks/01_experiment_to_business.ipynb",
-      "bytes": 8429,
-      "sha256": "f923f08342fed6ce4ffc16036f53a933d1a0480abc1592f8d4e8adf3a989c205"
+      "bytes": 12313,
+      "sha256": "c636beededef6172e7de064b21d07f3d42719f528f9b9f5569bc90f39e25d5b4"
     },
     {
       "path": "reports/AIWorkValue_Research_Report.pdf",
@@ -123,8 +123,13 @@
     },
     {
       "path": "reports/README.md",
-      "bytes": 1390,
-      "sha256": "bb7b5889838cbea4e42191a0e97a11f6e21b063b59e974de552d1648d30fec35"
+      "bytes": 1788,
+      "sha256": "3c7542eb461c8e15e9a88055686ec8ccc5dd14cfee362f5a5f7b24289c9edac1"
+    },
+    {
+      "path": "reports/SQL_Analysis.md",
+      "bytes": 3577,
+      "sha256": "c779e2d4de6d8e83c4aa97d3d08d7fa3a22e429bb3d778a5b95bb3973d3c6746"
     },
     {
       "path": "reports/data-audit.json",
@@ -138,8 +143,8 @@
     },
     {
       "path": "reports/sql-summaries.json",
-      "bytes": 4576,
-      "sha256": "5c45182c2582700e6cc145ef2e72ebe135826833ac6edd990fd16dbd7bc15087"
+      "bytes": 41619,
+      "sha256": "9da5b67792c71f733e1684cc64c7ab465351d60d2a78afa148706a99ed49f899"
     },
     {
       "path": "requirements.txt",
@@ -148,8 +153,8 @@
     },
     {
       "path": "scripts/build_notebook.py",
-      "bytes": 5061,
-      "sha256": "066eedcbf3e26e735b6f204f2bc0e4ee019057f3558f7123cc07e6bb87c4e6ad"
+      "bytes": 6267,
+      "sha256": "a9090e55fbbbddd6158394c902175144ad981442eae585e374ac560ebdf4c852"
     },
     {
       "path": "scripts/build_report.py",
@@ -173,13 +178,73 @@
     },
     {
       "path": "scripts/run_sql.py",
-      "bytes": 804,
-      "sha256": "52ee2bfac1184c1817ec6b352279af8aafa11c1f52b5445a02c2fd1b3e0f781f"
+      "bytes": 4922,
+      "sha256": "9a4cf463ff4a9c64f03fdeed9de36cce3fbcc8071aff4e549bdfe0d5c407d850"
     },
     {
       "path": "scripts/validate_outputs.py",
-      "bytes": 1434,
-      "sha256": "fa3cd4ed65b22af6fc5f03850d200faa8bca31414bba6c8979cd486d3cc636d1"
+      "bytes": 2073,
+      "sha256": "0ef6942a13a0a0046f42744c99e675d476ff7b4e252e4cfdd2725dcc28c95992"
+    },
+    {
+      "path": "sql/00_analysis_layer.sql",
+      "bytes": 3520,
+      "sha256": "c8cb90ecaee7aed44a1e74c6a42beb24e92f7ef2cf0aefbf3a10e1609a84f41d"
+    },
+    {
+      "path": "sql/01_sample_funnel.sql",
+      "bytes": 601,
+      "sha256": "6b3c9c90339759fbbb571ae0e4384c24cd64e5f33901c7ec1078d6a309f66178"
+    },
+    {
+      "path": "sql/02_group_coverage.sql",
+      "bytes": 749,
+      "sha256": "ce37f5ba48c4273e96da366a352406b35aaa101c5ad3e2e29cade1ffc7a39dca"
+    },
+    {
+      "path": "sql/03_baseline_balance.sql",
+      "bytes": 1436,
+      "sha256": "1bd96e5413e0c9bff9bfb18be5be8a74d0ff2c479ad15f66e296f069b9f0e53d"
+    },
+    {
+      "path": "sql/04_paired_changes.sql",
+      "bytes": 868,
+      "sha256": "9eb027dd403fee960f550a4cf27af026ed1ea80d61aa0c3df80907ede2863a1c"
+    },
+    {
+      "path": "sql/05_design_coverage.sql",
+      "bytes": 689,
+      "sha256": "c24b5ce19d9c85c5ebefecaa37d5cecdff9091fa0d552bc8c16458553564f5f4"
+    },
+    {
+      "path": "sql/06_adoption_and_followup.sql",
+      "bytes": 566,
+      "sha256": "13d8f083b2d73854732695381ea92c697de2a2c0ae64f59b1cc395925724522e"
+    },
+    {
+      "path": "sql/07_business_scenarios.sql",
+      "bytes": 545,
+      "sha256": "a7cf6175512bd07e9bf75d0c01acaed6c274fbb3804a31594de78d28eed1e63b"
+    },
+    {
+      "path": "sql/08_break_even.sql",
+      "bytes": 1085,
+      "sha256": "1234b17cac5afb035c1a5edd6a1c7fa0aacb82f8e25a49932d180db3f1ee8cba"
+    },
+    {
+      "path": "sql/09_sensitivity_grid.sql",
+      "bytes": 692,
+      "sha256": "4e9384763e8059617828a756cd3790bfb504a4237f4f25d2d8fb8556be072459"
+    },
+    {
+      "path": "sql/10_data_quality.sql",
+      "bytes": 991,
+      "sha256": "7c6ead229298d5d419d1b2aa0af2bbabd0d89bd2be92851b09b4ee580c8493a8"
+    },
+    {
+      "path": "sql/README.md",
+      "bytes": 4248,
+      "sha256": "839c0c449187cb4e4acc8b992ec498b9368b3cab38c6b413ff27f16d24ad5b7a"
     },
     {
       "path": "sql/study_analysis.sql",
@@ -207,9 +272,19 @@
       "sha256": "22fa39a3a3448c3d6fea51d73dc7a1247c60a6ba38f5de87612b17a37b2b2ab4"
     },
     {
+      "path": "src/aiworkvalue/sql_analysis.py",
+      "bytes": 4099,
+      "sha256": "f25aa9dbf8f60f4ddc31a5ba5e56ab4adb65057931590c79e209c294434b247c"
+    },
+    {
       "path": "tests/test_research.py",
       "bytes": 2701,
       "sha256": "0b0f6ccf74fe711399d26788cdd4a37ad8ecf40a4a5193ff163a8dfe1f9ed37a"
+    },
+    {
+      "path": "tests/test_sql.py",
+      "bytes": 3895,
+      "sha256": "73e2fae201a6916a35ca112a7bc9ee4ce349faddfeb59a1277d85add2fad09bd"
     }
   ]
 }

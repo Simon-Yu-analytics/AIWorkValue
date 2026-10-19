@@ -32,6 +32,21 @@ print("Primary incentive arms:", int(d.primary_arm.sum()))
     print("assignment / N / baseline minutes / post minutes / post grade")
     for row in connection.execute(q): print(row)
 ''')
+    md("### SQL：从样本检查到商业情景\n\n下面直接执行仓库里的 SQL 文件。配对变化属于未调整的描述比较，不等于后面的回归系数。商业情景用相同假设独立计算，并与 Python 结果核对。缺失的随访回答不能当成没有使用 AI。")
+    code('''from aiworkvalue.sql_analysis import query_file
+with sqlite3.connect(ROOT / "data/processed/study.sqlite") as connection:
+    for name in ("02_group_coverage.sql", "03_baseline_balance.sql", "04_paired_changes.sql"):
+        print("\\n", name)
+        for row in query_file(connection, ROOT / "sql" / name): print(row)
+''')
+    code('''with sqlite3.connect(ROOT / "data/processed/study.sqlite") as connection:
+    for row in query_file(connection, ROOT / "sql/07_business_scenarios.sql"):
+        expected = r["business"][row["scenario"]]["net_capacity_value_month"]
+        assert abs(row["net_capacity_value"] - expected) < 1e-8
+        print(row["scenario"], "SQL monthly net capacity value:", round(row["net_capacity_value"], 2))
+sql_results = json.loads((ROOT / "reports/sql-summaries.json").read_text())
+print("Python / SQL reconciliation:", sql_results["python_sql_reconciliation"])
+''')
     md("## 2. 自己重新估计一个主模型\n\n控制基线、职业×任务顺序及激励组。系数是分钟；负值代表更快。可用样本与原始随机入组总体要分开解释。")
     code('''import statsmodels.formula.api as smf
 primary = d[d.primary_arm].copy()

@@ -1,0 +1,215 @@
+{
+  "description": "Original code and aggregate deliverables; source and participant-level data excluded.",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 427,
+      "sha256": "0a46019f5980b9685893b82672030815aa8cd8b3e327699f7d4a34297073c16b"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 76,
+      "sha256": "35e022d95cb2f0d5c5d2ca2b831071ecb41e9a73de2b61735cc9590ae18c1fd3"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1081,
+      "sha256": "d3bafa311c3461244fea310c9a02668a44ff8244a0e350235f139783f0e3f972"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 467,
+      "sha256": "0a7b408c0880285be1f036a2ee137ff28335dde329c83eedd807045822035dd4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 16590,
+      "sha256": "969614bb0bde620d2d3c01657e2747582e54440f17648fc732b817f71dbae76e"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 2163,
+      "sha256": "8ccf5e0c3dcb1e0b89efe598768bb649918db57c3c94432cc7144c257b765f5b"
+    },
+    {
+      "path": "data/README.md",
+      "bytes": 1422,
+      "sha256": "dfd5a0b8b53789e5b19449223478e281db985fbd5f39b6fde401b6e5586120d6"
+    },
+    {
+      "path": "data/source-manifest.json",
+      "bytes": 2148,
+      "sha256": "87a3a823be58e3f1f3fc44849a5dd67949d648b73a6cf51d70fb7fa77b1fa87c"
+    },
+    {
+      "path": "docs/ANALYSIS_PLAN.md",
+      "bytes": 3536,
+      "sha256": "f21caa3a797bd61002547397d0b667cbf2a871ad97c573128b9f8f78b7ec1139"
+    },
+    {
+      "path": "docs/DATA_AND_METHODS.md",
+      "bytes": 5087,
+      "sha256": "5e92e34e9acb8069b3c64e9a8e9607a0a2649e23a35edf0bdd223d7d4bc85a40"
+    },
+    {
+      "path": "docs/RESEARCH_CARD.md",
+      "bytes": 4062,
+      "sha256": "eaae6538858faeb5b9d26e7b26f7be92d7da33ce2928b9e3ababb598fee93be0"
+    },
+    {
+      "path": "docs/中文学习与答辩指南.md",
+      "bytes": 5006,
+      "sha256": "214e4632d0a59c7697c2d9b75a7c5e16029af4216bf59847c8bd3322df30d5b2"
+    },
+    {
+      "path": "figures/01_sample_flow.png",
+      "bytes": 60687,
+      "sha256": "b9ce07a9de1e0131399ba2749d22b0eaf916d261db973c82c1a3b1c2706cc1da"
+    },
+    {
+      "path": "figures/02_primary_effects.png",
+      "bytes": 42086,
+      "sha256": "ae36e598c766c1202bc32d26cbcfe835bf511dd11d5a566447ccea8da6aaf056"
+    },
+    {
+      "path": "figures/03_before_after_means.png",
+      "bytes": 84004,
+      "sha256": "8670de453c123301ab9eba0ab4966fa8c74a1fff94d59f59e890e36560a54f36"
+    },
+    {
+      "path": "figures/04_robustness.png",
+      "bytes": 51815,
+      "sha256": "3f533c01a6d37922a375a70068c4f849f87d48240fc62b24f3986d2bad00ced9"
+    },
+    {
+      "path": "figures/05_heterogeneity.png",
+      "bytes": 35069,
+      "sha256": "b85cc0a406d0424641d80c433aaf78bfbd999657b4c0b0fa44fe5b92c42e5e61"
+    },
+    {
+      "path": "figures/06_adoption.png",
+      "bytes": 48441,
+      "sha256": "ddcd3f81219309b9c8d641deda277ce6d68609c157ddea096323cf95e0550d0b"
+    },
+    {
+      "path": "figures/07_business_sensitivity.png",
+      "bytes": 116840,
+      "sha256": "f5074d8caee25011f5802c21a29463a6035b8aaf6dd42b5f0e1bd309b0cfb7b7"
+    },
+    {
+      "path": "figures/08_commercial_scenarios.png",
+      "bytes": 39349,
+      "sha256": "992412f2c1e995efb8ebfb075b02cfe1a3eb59cdf89bfd8f005125c9f6b8c7ca"
+    },
+    {
+      "path": "figures/README.md",
+      "bytes": 1631,
+      "sha256": "351f17042ba250368453efefafc9388cce6cdc133e1d0ae11c3b859c27d471fc"
+    },
+    {
+      "path": "notebooks/01_experiment_to_business.ipynb",
+      "bytes": 8429,
+      "sha256": "f923f08342fed6ce4ffc16036f53a933d1a0480abc1592f8d4e8adf3a989c205"
+    },
+    {
+      "path": "reports/AIWorkValue_Research_Report.pdf",
+      "bytes": 493357,
+      "sha256": "238b4e78ffb2a499c06258e3ce50832ef5f5f73e55b404b324efacd5ac0e00bd"
+    },
+    {
+      "path": "reports/Executive_Memo.md",
+      "bytes": 2324,
+      "sha256": "1974ff89997b63b04c4fbd039212d2cbd3c1adee62c54706248b6638d4c3fd7b"
+    },
+    {
+      "path": "reports/README.md",
+      "bytes": 1390,
+      "sha256": "bb7b5889838cbea4e42191a0e97a11f6e21b063b59e974de552d1648d30fec35"
+    },
+    {
+      "path": "reports/data-audit.json",
+      "bytes": 1466,
+      "sha256": "8b601ac63eaf2027af858fbc18d2a39ab6735004fce272a312de891be27ec0f8"
+    },
+    {
+      "path": "reports/results.json",
+      "bytes": 23280,
+      "sha256": "5451b15fcc113c92a16e55a1dddabc9b0dea416058a2ec9ca166f05218064722"
+    },
+    {
+      "path": "reports/sql-summaries.json",
+      "bytes": 4576,
+      "sha256": "5c45182c2582700e6cc145ef2e72ebe135826833ac6edd990fd16dbd7bc15087"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 128,
+      "sha256": "3d45ba1e4e63378ce51fc9c25b7733bb180f6fb8c51cce1c1eca7b881a26a16d"
+    },
+    {
+      "path": "scripts/build_notebook.py",
+      "bytes": 5061,
+      "sha256": "066eedcbf3e26e735b6f204f2bc0e4ee019057f3558f7123cc07e6bb87c4e6ad"
+    },
+    {
+      "path": "scripts/build_report.py",
+      "bytes": 22372,
+      "sha256": "d36640bf65a0f26e32049206bb1a3cb7316ac0acfdbf5c6f2127d40fd311fee8"
+    },
+    {
+      "path": "scripts/download_data.py",
+      "bytes": 1260,
+      "sha256": "3435a00a4c252e2ca67baddbc74aa753b0df3d5a14ee2444a7eacb809d292550"
+    },
+    {
+      "path": "scripts/package_project.py",
+      "bytes": 2012,
+      "sha256": "e1d6346b4970758a421e686e00970a4184076be8f4dc23be5f4ebe43c02ddb66"
+    },
+    {
+      "path": "scripts/run_analysis.py",
+      "bytes": 2024,
+      "sha256": "123b3355f7f9bd91aea2b3d982bf0f22585201f72b24e2cceeb6a12653c89f4f"
+    },
+    {
+      "path": "scripts/run_sql.py",
+      "bytes": 804,
+      "sha256": "52ee2bfac1184c1817ec6b352279af8aafa11c1f52b5445a02c2fd1b3e0f781f"
+    },
+    {
+      "path": "scripts/validate_outputs.py",
+      "bytes": 1434,
+      "sha256": "fa3cd4ed65b22af6fc5f03850d200faa8bca31414bba6c8979cd486d3cc636d1"
+    },
+    {
+      "path": "sql/study_analysis.sql",
+      "bytes": 1504,
+      "sha256": "55ceeb825c182a6fc11201cf4536ab603220d40f59441f5856f2d4c216e0c7f4"
+    },
+    {
+      "path": "src/aiworkvalue/__init__.py",
+      "bytes": 79,
+      "sha256": "c742b35b05a10ee2b91dbd4951af4f56fae3b387970e3a54c71642c1804a1b20"
+    },
+    {
+      "path": "src/aiworkvalue/analysis.py",
+      "bytes": 5741,
+      "sha256": "18f528468556ebafc067b2c82cdaec2874c381693dacb1a3985af291e70b41a6"
+    },
+    {
+      "path": "src/aiworkvalue/business.py",
+      "bytes": 3117,
+      "sha256": "febfe16c94061ef4cc26174210dd09cfb91def36c1aaa9b74a291d27c30d67f4"
+    },
+    {
+      "path": "src/aiworkvalue/data.py",
+      "bytes": 6083,
+      "sha256": "22fa39a3a3448c3d6fea51d73dc7a1247c60a6ba38f5de87612b17a37b2b2ab4"
+    },
+    {
+      "path": "tests/test_research.py",
+      "bytes": 2701,
+      "sha256": "0b0f6ccf74fe711399d26788cdd4a37ad8ecf40a4a5193ff163a8dfe1f9ed37a"
+    }
+  ]
+}

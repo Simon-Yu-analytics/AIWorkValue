@@ -1,0 +1,148 @@
+[
+  {
+    "sql": "SELECT assignment,COUNT(*) AS participants,\n ROUND(AVG(time_pre),2) AS mean_baseline_minutes,\n ROUND(AVG(time_post),2) AS mean_post_minutes,\n ROUND(AVG(grade_pre),3) AS mean_baseline_grade,\n ROUND(AVG(grade_post),3) AS mean_post_grade\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+    "rows": [
+      {
+        "assignment": 0,
+        "participants": 187,
+        "mean_baseline_minutes": 28.97,
+        "mean_post_minutes": 27.04,
+        "mean_baseline_grade": 3.97,
+        "mean_post_grade": 3.83
+      },
+      {
+        "assignment": 1,
+        "participants": 172,
+        "mean_baseline_minutes": 29.8,
+        "mean_post_minutes": 16.93,
+        "mean_baseline_grade": 3.969,
+        "mean_post_grade": 4.518
+      }
+    ]
+  },
+  {
+    "sql": "SELECT assignment,COUNT(*) AS retained_primary_arm,\n SUM(time_pre IS NOT NULL AND time_post IS NOT NULL) AS valid_time_pairs,\n SUM(grade_pre IS NOT NULL AND grade_post IS NOT NULL) AS valid_quality_pairs\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+    "rows": [
+      {
+        "assignment": 0,
+        "retained_primary_arm": 187,
+        "valid_time_pairs": 180,
+        "valid_quality_pairs": 186
+      },
+      {
+        "assignment": 1,
+        "retained_primary_arm": 172,
+        "valid_time_pairs": 166,
+        "valid_quality_pairs": 166
+      }
+    ]
+  },
+  {
+    "sql": "SELECT assignment,COUNT(used_ai) AS usage_respondents,ROUND(AVG(used_ai),3) AS experimental_use,\n COUNT(followup_used_ai) AS followup_respondents,\n ROUND(AVG(followup_used_ai),3) AS workplace_use_among_followup_respondents\nFROM participants WHERE primary_arm=1 GROUP BY assignment",
+    "rows": [
+      {
+        "assignment": 0,
+        "usage_respondents": 187,
+        "experimental_use": 0.107,
+        "followup_respondents": 167,
+        "workplace_use_among_followup_respondents": 0.186
+      },
+      {
+        "assignment": 1,
+        "usage_respondents": 170,
+        "experimental_use": 0.818,
+        "followup_respondents": 149,
+        "workplace_use_among_followup_respondents": 0.342
+      }
+    ]
+  },
+  {
+    "sql": "SELECT occupation,assignment,COUNT(*) AS participants,\n ROUND(AVG(time_post-time_pre),2) AS mean_time_change,\n ROUND(AVG(grade_post-grade_pre),3) AS mean_quality_change\nFROM participants WHERE primary_arm=1\nGROUP BY occupation,assignment ORDER BY occupation,assignment",
+    "rows": [
+      {
+        "occupation": "HR professional",
+        "assignment": 0,
+        "participants": 11,
+        "mean_time_change": -4.1,
+        "mean_quality_change": 0.067
+      },
+      {
+        "occupation": "HR professional",
+        "assignment": 1,
+        "participants": 15,
+        "mean_time_change": -17.73,
+        "mean_quality_change": 0.25
+      },
+      {
+        "occupation": "consultant",
+        "assignment": 0,
+        "participants": 27,
+        "mean_time_change": -2.46,
+        "mean_quality_change": -0.435
+      },
+      {
+        "occupation": "consultant",
+        "assignment": 1,
+        "participants": 19,
+        "mean_time_change": -8.22,
+        "mean_quality_change": 0.52
+      },
+      {
+        "occupation": "data analyst",
+        "assignment": 0,
+        "participants": 23,
+        "mean_time_change": -2.3,
+        "mean_quality_change": -0.159
+      },
+      {
+        "occupation": "data analyst",
+        "assignment": 1,
+        "participants": 19,
+        "mean_time_change": -10.59,
+        "mean_quality_change": 0.319
+      },
+      {
+        "occupation": "grant writer",
+        "assignment": 0,
+        "participants": 31,
+        "mean_time_change": -4.95,
+        "mean_quality_change": -0.166
+      },
+      {
+        "occupation": "grant writer",
+        "assignment": 1,
+        "participants": 35,
+        "mean_time_change": -18.6,
+        "mean_quality_change": 0.124
+      },
+      {
+        "occupation": "manager",
+        "assignment": 0,
+        "participants": 79,
+        "mean_time_change": -0.93,
+        "mean_quality_change": -0.049
+      },
+      {
+        "occupation": "manager",
+        "assignment": 1,
+        "participants": 67,
+        "mean_time_change": -11.76,
+        "mean_quality_change": 0.954
+      },
+      {
+        "occupation": "marketer",
+        "assignment": 0,
+        "participants": 16,
+        "mean_time_change": 0.5,
+        "mean_quality_change": -0.146
+      },
+      {
+        "occupation": "marketer",
+        "assignment": 1,
+        "participants": 17,
+        "mean_time_change": -7.47,
+        "mean_quality_change": 0.309
+      }
+    ]
+  }
+]

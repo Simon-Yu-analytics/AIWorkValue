@@ -1,0 +1,61 @@
+{
+  "study": "Noy and Zhang (2023)",
+  "osf_project": "xd7qw",
+  "assets": [
+    {
+      "url": "https://osf.io/download/dch8w/",
+      "path": "data/raw/fullsurvey.csv",
+      "bytes": 22753065,
+      "sha256": "06f430ba9a9194039530721d68ad37f95552977a1ae1868c9228d1ce6334db0f"
+    },
+    {
+      "url": "https://osf.io/download/hdszk/",
+      "path": "data/raw/grading_long_complete.csv",
+      "bytes": 1369616,
+      "sha256": "92771e43f2116df81a8681d281a94e94dec8ca4a2d0a04ff0a1ecfe3bcdc2779"
+    },
+    {
+      "url": "https://osf.io/download/tfqxz/",
+      "path": "data/raw/grading_wide_complete.csv",
+      "bytes": 1034104,
+      "sha256": "b0048dc462d4d3353bd7cd16d8563178d8140d4312121b560c8947e418a125a4"
+    },
+    {
+      "url": "https://osf.io/download/m35kf/",
+      "path": "data/raw/grading.xlsx",
+      "bytes": 48551,
+      "sha256": "76e66cb815a3e9b7e333ff50f8f49fd661857bc4614fae62fb987d06590edd1e"
+    },
+    {
+      "url": "https://osf.io/download/3qcfb/",
+      "path": "data/raw/grading_retry.xlsx",
+      "bytes": 22050,
+      "sha256": "09009bc52b50d76e4585a8072a63115c819dbd21ab5da553c7f5bd01b2898e27"
+    },
+    {
+      "url": "https://osf.io/download/vcxfj/",
+      "path": "data/raw/followupsurvey.csv",
+      "bytes": 147491,
+      "sha256": "d83c1f6a855d7835a3dfca16992854a5e42f000c1ed567baf81b677606dc62a5"
+    },
+    {
+      "url": "https://osf.io/download/xvfg5/",
+      "path": "data/raw/grade_cleaning_jul21.do",
+      "bytes": 8269,
+      "sha256": "b97aba0ac7d6d9758e49537097913036efb20274c1aac0a1de866b6790c13523"
+    },
+    {
+      "url": "https://osf.io/download/8e9ca/",
+      "path": "data/raw/clean.do",
+      "bytes": 11134,
+      "sha256": "961fcf236bcb085be2489601c7517750cbb27a05864f09942f143212697582b7"
+    },
+    {
+      "url": "https://osf.io/download/7yxbt/",
+      "path": "data/raw/author_readme.pdf",
+      "bytes": 233513,
+      "sha256": "2175741e38419fc09a5797a231bd534bf607ffb3944030ace13cc7cde942a488"
+    }
+  ],
+  "license_note": "No license was declared in the OSF node metadata at retrieval. Public raw files are downloaded separately and are not redistributed in this project."
+}

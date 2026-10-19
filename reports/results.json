@@ -1,0 +1,726 @@
+{
+  "primary": [
+    {
+      "name": "primary_time",
+      "outcome": "minutes",
+      "formula": "time_post ~ assignment + time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 346,
+      "coefficient": -10.339471774902234,
+      "standard_error": 1.1402799360767917,
+      "ci95": [
+        -12.58258120461554,
+        -8.096362345188929
+      ],
+      "p_value": 1.0986144158923516e-17,
+      "covariance": "HC3",
+      "r_squared": 0.4185623695903913,
+      "holm_p_value": 2.1972288317847033e-17
+    },
+    {
+      "name": "primary_quality",
+      "outcome": "grade_points",
+      "formula": "grade_post ~ assignment + grade_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 352,
+      "coefficient": 0.6995118177083012,
+      "standard_error": 0.11861698365041554,
+      "ci95": [
+        0.4661888558257914,
+        0.932834779590811
+      ],
+      "p_value": 8.987254580400753e-09,
+      "covariance": "HC3",
+      "r_squared": 0.27092813754337797,
+      "holm_p_value": 8.987254580400753e-09
+    }
+  ],
+  "robustness": [
+    {
+      "name": "unadjusted_time",
+      "outcome": "minutes",
+      "formula": "time_post ~ assignment",
+      "term": "assignment",
+      "n": 356,
+      "coefficient": -10.113786665822863,
+      "standard_error": 1.3050088451473438,
+      "ci95": [
+        -12.680331766353598,
+        -7.547241565292127
+      ],
+      "p_value": 9.827240397784874e-14,
+      "covariance": "HC3",
+      "r_squared": 0.14663403742605663
+    },
+    {
+      "name": "time_change_design_controls",
+      "outcome": "minutes",
+      "formula": "time_change ~ assignment + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 346,
+      "coefficient": -10.842372817422415,
+      "standard_error": 1.4126606647379982,
+      "ci95": [
+        -13.621267134276575,
+        -8.063478500568255
+      ],
+      "p_value": 1.8600673975675254e-13,
+      "covariance": "HC3",
+      "r_squared": 0.22256199310580316
+    },
+    {
+      "name": "log_time_ancova",
+      "outcome": "log1p_minutes",
+      "formula": "log_time_post ~ assignment + log_time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 346,
+      "coefficient": -0.6566146628010009,
+      "standard_error": 0.06701615489853698,
+      "ci95": [
+        -0.788445947593433,
+        -0.5247833780085688
+      ],
+      "p_value": 4.54413427218264e-20,
+      "covariance": "HC3",
+      "r_squared": 0.38751431504308964
+    },
+    {
+      "name": "objective_page_duration",
+      "outcome": "minutes",
+      "formula": "page_post ~ assignment + page_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 357,
+      "coefficient": -9.320175819224033,
+      "standard_error": 1.0527926690519749,
+      "ci95": [
+        -11.39093966656349,
+        -7.249411971884577
+      ],
+      "p_value": 4.6885343132955856e-17,
+      "covariance": "HC3",
+      "r_squared": 0.3431551143906071
+    },
+    {
+      "name": "unadjusted_quality",
+      "outcome": "grade_points",
+      "formula": "grade_post ~ assignment",
+      "term": "assignment",
+      "n": 352,
+      "coefficient": 0.6880003886513796,
+      "standard_error": 0.12303978410447501,
+      "ci95": [
+        0.44601004731479865,
+        0.9299907299879605
+      ],
+      "p_value": 4.535256691268543e-08,
+      "covariance": "HC3",
+      "r_squared": 0.08138457984083636
+    },
+    {
+      "name": "quality_change_design_controls",
+      "outcome": "grade_points",
+      "formula": "grade_change ~ assignment + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 352,
+      "coefficient": 0.7064510081441671,
+      "standard_error": 0.15182954760844725,
+      "ci95": [
+        0.4078011780230511,
+        1.005100838265283
+      ],
+      "p_value": 4.705131520805796e-06,
+      "covariance": "HC3",
+      "r_squared": 0.09246745122448463
+    },
+    {
+      "name": "quality_including_fixed_time_arm",
+      "outcome": "grade_points",
+      "formula": "grade_post ~ assignment + grade_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment",
+      "n": 444,
+      "coefficient": 0.7208259601494007,
+      "standard_error": 0.10569924781507685,
+      "ci95": [
+        0.5130717510327097,
+        0.9285801692660917
+      ],
+      "p_value": 3.1228692580904335e-11,
+      "covariance": "HC3",
+      "r_squared": 0.28484490279718233
+    },
+    {
+      "name": "paired_grader_fixed_effects",
+      "outcome": "grade_points",
+      "formula": "grade_delta ~ assignment + C(grader_id) + C(occupation):a_first + C(incentive_arm)",
+      "term": "assignment",
+      "n": 1067,
+      "coefficient": 0.7121378759113376,
+      "standard_error": 0.14756927566917094,
+      "ci95": [
+        0.4219066580567353,
+        1.00236909376594
+      ],
+      "p_value": 2.083695546103815e-06,
+      "covariance": "participant-clustered",
+      "r_squared": 0.1569037208644346
+    }
+  ],
+  "heterogeneity": {
+    "baseline_mean": 3.9692708333333333,
+    "baseline_median": 4.0,
+    "interaction_tests": [
+      {
+        "name": "time_baseline_writing_score_interaction",
+        "outcome": "minutes_per_baseline_point",
+        "formula": "time_post ~ assignment * baseline_score_centered + time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment:baseline_score_centered",
+        "n": 341,
+        "coefficient": -0.417378561754098,
+        "standard_error": 0.8712351439347249,
+        "ci95": [
+          -2.131370587570093,
+          1.296613464061897
+        ],
+        "p_value": 0.6322153064250448,
+        "covariance": "HC3",
+        "r_squared": 0.42044933188213507
+      },
+      {
+        "name": "quality_baseline_writing_score_interaction",
+        "outcome": "grade_points_per_baseline_point",
+        "formula": "grade_post ~ assignment * baseline_score_centered + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment:baseline_score_centered",
+        "n": 352,
+        "coefficient": -0.24862602466011574,
+        "standard_error": 0.09441662868570326,
+        "ci95": [
+          -0.43434819595180496,
+          -0.06290385336842652
+        ],
+        "p_value": 0.008847147088072733,
+        "covariance": "HC3",
+        "r_squared": 0.28798352584341824
+      }
+    ],
+    "groups": [
+      {
+        "group": "lower_baseline_score",
+        "baseline_cutoff": 4.0,
+        "name": "lower_baseline_score_time_post",
+        "outcome": "minutes",
+        "formula": "time_post ~ assignment + time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment",
+        "n": 181,
+        "coefficient": -9.935707399458053,
+        "standard_error": 1.8056255137723067,
+        "ci95": [
+          -13.500658150833425,
+          -6.370756648082681
+        ],
+        "p_value": 1.394286848399864e-07,
+        "covariance": "HC3",
+        "r_squared": 0.38990868382058086
+      },
+      {
+        "group": "lower_baseline_score",
+        "baseline_cutoff": 4.0,
+        "name": "lower_baseline_score_grade_post",
+        "outcome": "grade_points",
+        "formula": "grade_post ~ assignment + grade_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment",
+        "n": 189,
+        "coefficient": 0.8772633107276514,
+        "standard_error": 0.1702152571738615,
+        "ci95": [
+          0.5413109147277224,
+          1.2132157067275804
+        ],
+        "p_value": 6.874907052240358e-07,
+        "covariance": "HC3",
+        "r_squared": 0.2664826025638918
+      },
+      {
+        "group": "higher_baseline_score",
+        "baseline_cutoff": 4.0,
+        "name": "higher_baseline_score_time_post",
+        "outcome": "minutes",
+        "formula": "time_post ~ assignment + time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment",
+        "n": 160,
+        "coefficient": -10.212716679753138,
+        "standard_error": 1.576823282778294,
+        "ci95": [
+          -13.329244135582526,
+          -7.09618922392375
+        ],
+        "p_value": 1.3635335490318627e-09,
+        "covariance": "HC3",
+        "r_squared": 0.49469129702330883
+      },
+      {
+        "group": "higher_baseline_score",
+        "baseline_cutoff": 4.0,
+        "name": "higher_baseline_score_grade_post",
+        "outcome": "grade_points",
+        "formula": "grade_post ~ assignment + grade_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+        "term": "assignment",
+        "n": 163,
+        "coefficient": 0.5081617433763206,
+        "standard_error": 0.17432903738068867,
+        "ci95": [
+          0.16366621131831044,
+          0.8526572754343307
+        ],
+        "p_value": 0.004110648679975025,
+        "covariance": "HC3",
+        "r_squared": 0.21949340169608922
+      }
+    ],
+    "status": "exploratory; not an employee allocation rule"
+  },
+  "descriptive_means": [
+    {
+      "assignment": 0,
+      "n": 187,
+      "time_pre": 28.969444444444445,
+      "time_post": 27.0427807486631,
+      "grade_pre": 3.9696236559139786,
+      "grade_post": 3.829569892473118,
+      "used_ai": 0.10695187165775401,
+      "followup_respondents": 167,
+      "followup_response_rate": 0.893048128342246,
+      "followup_use_among_respondents": 0.18562874251497005
+    },
+    {
+      "assignment": 1,
+      "n": 172,
+      "time_pre": 29.802395209580837,
+      "time_post": 16.928994082840237,
+      "grade_pre": 3.9688755020080317,
+      "grade_post": 4.517570281124498,
+      "used_ai": 0.8176470588235294,
+      "followup_respondents": 149,
+      "followup_response_rate": 0.8662790697674418,
+      "followup_use_among_respondents": 0.3422818791946309
+    }
+  ],
+  "baseline_balance": [
+    {
+      "variable": "time_pre",
+      "control_mean": 28.969444444444445,
+      "offer_mean": 29.802395209580837,
+      "standardized_difference": 0.05707506141260815
+    },
+    {
+      "variable": "grade_pre",
+      "control_mean": 3.969623655913978,
+      "offer_mean": 3.968875502008033,
+      "standardized_difference": -0.0005852840315852995
+    },
+    {
+      "variable": "a_first",
+      "control_mean": 0.5721925133689839,
+      "offer_mean": 0.5,
+      "standardized_difference": -0.14473770527748814
+    }
+  ],
+  "followup_assignment_contrast": {
+    "name": "two_week_use_available_respondents",
+    "outcome": "probability_points",
+    "formula": "followup_used_ai ~ assignment",
+    "term": "assignment",
+    "n": 316,
+    "coefficient": 0.15665313667966094,
+    "standard_error": 0.04947267445486333,
+    "ci95": [
+      0.059313289937862904,
+      0.253992983421459
+    ],
+    "p_value": 0.0016945906410675412,
+    "covariance": "HC3",
+    "r_squared": 0.03182374019060452
+  },
+  "inference": "Assignment contrasts among retained available cases; differential attrition limits full-sample ITT interpretation.",
+  "audit": {
+    "sample_flow": [
+      {
+        "stage": "raw_survey_records",
+        "n": 786,
+        "control": 368,
+        "ai_offer": 365
+      },
+      {
+        "stage": "completed_and_not_declined",
+        "n": 523,
+        "control": 273,
+        "ai_offer": 250
+      },
+      {
+        "stage": "unique_first_submission",
+        "n": 505,
+        "control": 263,
+        "ai_offer": 242
+      },
+      {
+        "stage": "documented_first_task_and_duplicate_flags",
+        "n": 499,
+        "control": 260,
+        "ai_offer": 239
+      },
+      {
+        "stage": "author_quality_check",
+        "n": 457,
+        "control": 237,
+        "ai_offer": 220
+      },
+      {
+        "stage": "exclude_prior_graders",
+        "n": 453,
+        "control": 235,
+        "ai_offer": 218
+      }
+    ],
+    "attrition_after_baseline": [
+      {
+        "assignment": 0,
+        "reached_first_task": 234,
+        "finished": 220,
+        "completion_rate": 0.9401709401709402
+      },
+      {
+        "assignment": 1,
+        "reached_first_task": 218,
+        "finished": 195,
+        "completion_rate": 0.8944954128440367
+      }
+    ],
+    "retained_participants": 453,
+    "primary_arm_participants": 359,
+    "valid_quality_pairs": 444,
+    "valid_time_pairs": 437,
+    "paired_rater_rows": 1564,
+    "documented_excluded_ids_count": 6,
+    "grading_choice": "All eligible paired graders; participant-level mean; no data-dependent grader-correlation exclusion.",
+    "primary_sample": "Linear and convex incentive arms; retained available cases, not all randomized participants."
+  },
+  "business": {
+    "conservative": {
+      "assumptions": {
+        "employees": 200,
+        "rollout_coverage": 0.5,
+        "eligible_tasks_per_employee_month": 20,
+        "transferability": 0.25,
+        "additional_review_minutes": 3,
+        "loaded_hourly_value": 35,
+        "assumed_seat_cost_month": 25,
+        "fixed_operating_cost_month": 500,
+        "setup_cost": 3000
+      },
+      "study_assignment_minutes_saved": 10.339471774902234,
+      "offered_employees": 100.0,
+      "net_minutes_per_eligible_task": -0.4151320562744414,
+      "capacity_hours_month": -13.837735209148045,
+      "capacity_value_month": -484.32073232018155,
+      "recurring_cost_month": 3000.0,
+      "net_capacity_value_month": -3484.3207323201814,
+      "operating_break_even_seat_cost": -9.843207323201817,
+      "capacity_value_payback_months": null,
+      "boundary": "Illustrative capacity value, not cash savings. Historical assignment effect already includes study take-up; do not multiply by that take-up rate again."
+    },
+    "base": {
+      "assumptions": {
+        "employees": 200,
+        "rollout_coverage": 0.5,
+        "eligible_tasks_per_employee_month": 20,
+        "transferability": 0.5,
+        "additional_review_minutes": 2,
+        "loaded_hourly_value": 35,
+        "assumed_seat_cost_month": 25,
+        "fixed_operating_cost_month": 500,
+        "setup_cost": 3000
+      },
+      "study_assignment_minutes_saved": 10.339471774902234,
+      "offered_employees": 100.0,
+      "net_minutes_per_eligible_task": 3.1697358874511172,
+      "capacity_hours_month": 105.65786291503724,
+      "capacity_value_month": 3698.0252020263033,
+      "recurring_cost_month": 3000.0,
+      "net_capacity_value_month": 698.0252020263033,
+      "operating_break_even_seat_cost": 31.980252020263034,
+      "capacity_value_payback_months": 4.297839091326895,
+      "boundary": "Illustrative capacity value, not cash savings. Historical assignment effect already includes study take-up; do not multiply by that take-up rate again."
+    },
+    "upside": {
+      "assumptions": {
+        "employees": 200,
+        "rollout_coverage": 0.5,
+        "eligible_tasks_per_employee_month": 20,
+        "transferability": 0.75,
+        "additional_review_minutes": 1,
+        "loaded_hourly_value": 35,
+        "assumed_seat_cost_month": 25,
+        "fixed_operating_cost_month": 500,
+        "setup_cost": 3000
+      },
+      "study_assignment_minutes_saved": 10.339471774902234,
+      "offered_employees": 100.0,
+      "net_minutes_per_eligible_task": 6.754603831176675,
+      "capacity_hours_month": 225.1534610392225,
+      "capacity_value_month": 7880.371136372787,
+      "recurring_cost_month": 3000.0,
+      "net_capacity_value_month": 4880.371136372787,
+      "operating_break_even_seat_cost": 73.80371136372787,
+      "capacity_value_payback_months": 0.6147073483082834,
+      "boundary": "Illustrative capacity value, not cash savings. Historical assignment effect already includes study take-up; do not multiply by that take-up rate again."
+    },
+    "effect_uncertainty_only": {
+      "minutes_saved_ci95": [
+        8.096362345188929,
+        12.58258120461554
+      ],
+      "lower": {
+        "assumptions": {
+          "employees": 200,
+          "rollout_coverage": 0.5,
+          "eligible_tasks_per_employee_month": 20,
+          "transferability": 0.5,
+          "additional_review_minutes": 2,
+          "loaded_hourly_value": 35,
+          "assumed_seat_cost_month": 25,
+          "fixed_operating_cost_month": 500,
+          "setup_cost": 3000
+        },
+        "study_assignment_minutes_saved": 8.096362345188929,
+        "offered_employees": 100.0,
+        "net_minutes_per_eligible_task": 2.0481811725944645,
+        "capacity_hours_month": 68.27270575314881,
+        "capacity_value_month": 2389.5447013602084,
+        "recurring_cost_month": 3000.0,
+        "net_capacity_value_month": -610.4552986397916,
+        "operating_break_even_seat_cost": 18.895447013602084,
+        "capacity_value_payback_months": null,
+        "boundary": "Illustrative capacity value, not cash savings. Historical assignment effect already includes study take-up; do not multiply by that take-up rate again."
+      },
+      "upper": {
+        "assumptions": {
+          "employees": 200,
+          "rollout_coverage": 0.5,
+          "eligible_tasks_per_employee_month": 20,
+          "transferability": 0.5,
+          "additional_review_minutes": 2,
+          "loaded_hourly_value": 35,
+          "assumed_seat_cost_month": 25,
+          "fixed_operating_cost_month": 500,
+          "setup_cost": 3000
+        },
+        "study_assignment_minutes_saved": 12.58258120461554,
+        "offered_employees": 100.0,
+        "net_minutes_per_eligible_task": 4.29129060230777,
+        "capacity_hours_month": 143.04302007692567,
+        "capacity_value_month": 5006.505702692399,
+        "recurring_cost_month": 3000.0,
+        "net_capacity_value_month": 2006.5057026923987,
+        "operating_break_even_seat_cost": 45.06505702692399,
+        "capacity_value_payback_months": 1.4951365430830803,
+        "boundary": "Illustrative capacity value, not cash savings. Historical assignment effect already includes study take-up; do not multiply by that take-up rate again."
+      },
+      "boundary": "This range propagates statistical effect uncertainty only; assumptions and external validity have additional unmeasured uncertainty."
+    },
+    "sensitivity": [
+      {
+        "transferability": 0.25,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 15.679267679818167
+      },
+      {
+        "transferability": 0.25,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": -1150.9873989868483
+      },
+      {
+        "transferability": 0.25,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": -2317.654065653515
+      },
+      {
+        "transferability": 0.25,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": -3484.3207323201814
+      },
+      {
+        "transferability": 0.25,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": -4650.987398986848
+      },
+      {
+        "transferability": 0.25,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": -5817.654065653514
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 1825.08682828771
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": 658.420161621043
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": -508.2465050456235
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": -1674.91317171229
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": -2841.5798383789565
+      },
+      {
+        "transferability": 0.4,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": -4008.246505045623
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 3031.3585353596363
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": 1864.6918686929703
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": 698.0252020263033
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": -468.6414646403632
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": -1635.30813130703
+      },
+      {
+        "transferability": 0.5,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": -2801.9747979736967
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 4237.6302424315645
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": 3070.9635757648975
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": 1904.2969090982306
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": 737.6302424315636
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": -429.0364242351029
+      },
+      {
+        "transferability": 0.6,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": -1595.7030909017699
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 6047.037803039455
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": 4880.371136372787
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": 3713.704469706121
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": 2547.037803039454
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": 1380.371136372788
+      },
+      {
+        "transferability": 0.75,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": 213.70446970612193
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 0.0,
+        "net_capacity_value_month": 9062.717070719273
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 1.0,
+        "net_capacity_value_month": 7896.050404052607
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 2.0,
+        "net_capacity_value_month": 6729.383737385941
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 3.0,
+        "net_capacity_value_month": 5562.7170707192745
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 4.0,
+        "net_capacity_value_month": 4396.050404052607
+      },
+      {
+        "transferability": 1.0,
+        "review_minutes": 5.0,
+        "net_capacity_value_month": 3229.3837373859405
+      }
+    ]
+  },
+  "meta": {
+    "project": "AIWorkValue",
+    "study": "Noy and Zhang (Science, 2023)",
+    "osf_project": "xd7qw",
+    "analysis_date": "2026-10-19",
+    "python": "3.12.14",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "2.2.3",
+      "scipy": "1.18.1",
+      "statsmodels": "0.15.0"
+    },
+    "claim": "Independent reanalysis plus commercial scenarios, not an original experiment or exact author-code replication."
+  }
+}

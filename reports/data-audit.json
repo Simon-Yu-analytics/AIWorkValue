@@ -1,0 +1,62 @@
+{
+  "sample_flow": [
+    {
+      "stage": "raw_survey_records",
+      "n": 786,
+      "control": 368,
+      "ai_offer": 365
+    },
+    {
+      "stage": "completed_and_not_declined",
+      "n": 523,
+      "control": 273,
+      "ai_offer": 250
+    },
+    {
+      "stage": "unique_first_submission",
+      "n": 505,
+      "control": 263,
+      "ai_offer": 242
+    },
+    {
+      "stage": "documented_first_task_and_duplicate_flags",
+      "n": 499,
+      "control": 260,
+      "ai_offer": 239
+    },
+    {
+      "stage": "author_quality_check",
+      "n": 457,
+      "control": 237,
+      "ai_offer": 220
+    },
+    {
+      "stage": "exclude_prior_graders",
+      "n": 453,
+      "control": 235,
+      "ai_offer": 218
+    }
+  ],
+  "attrition_after_baseline": [
+    {
+      "assignment": 0,
+      "reached_first_task": 234,
+      "finished": 220,
+      "completion_rate": 0.9401709401709402
+    },
+    {
+      "assignment": 1,
+      "reached_first_task": 218,
+      "finished": 195,
+      "completion_rate": 0.8944954128440367
+    }
+  ],
+  "retained_participants": 453,
+  "primary_arm_participants": 359,
+  "valid_quality_pairs": 444,
+  "valid_time_pairs": 437,
+  "paired_rater_rows": 1564,
+  "documented_excluded_ids_count": 6,
+  "grading_choice": "All eligible paired graders; participant-level mean; no data-dependent grader-correlation exclusion.",
+  "primary_sample": "Linear and convex incentive arms; retained available cases, not all randomized participants."
+}

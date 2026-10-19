@@ -18,3 +18,7 @@ Regenerate all eight figures with `make report` after `make run`. Charts are der
 ![Transferability and verification sensitivity](07_business_sensitivity.png)
 
 Experimental intervals describe historical available-case estimates. Scenario values are hypothetical, and released capacity is not measured cash savings. Original experiment and data: Noy and Zhang (2023).
+
+## Task extension
+
+The eight main figures are supplemented by a [weekly status-email chart](extensions/weekly_status_email.png), rebuilt with `make extension`. It varies task frequency and additional checking time while holding the other hypothetical inputs fixed. See the [case explanation](../reports/extensions/Weekly_Status_Email.md).

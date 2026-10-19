@@ -12,4 +12,6 @@
 
 **Next measurement.** Choose one recurring writing task and record full time to an acceptable result, including checking and rework, alongside a simple quality rubric and actual task frequency. Replace the cost assumptions with observed costs before drawing a purchase conclusion. Released capacity is not automatically a cash saving.
 
+**Task-specific check.** The [weekly status-email extension](extensions/Weekly_Status_Email.md) charges all seat/support costs to one writing workflow. At four eligible tasks/month and one extra checking minute/task, it gives about −$2,030/month net capacity value; at 20 tasks with the same checking, about +$1,860/month. Raising checking to three minutes at that higher volume changes the result to about −$470/month. This is a hypothetical sensitivity calculation, not new email-task evidence or a client outcome. Other uses of the subscription could change the cost allocation.
+
 Source: Noy and Zhang, Science (2023), DOI 10.1126/science.adh2586; author replication package OSF `xd7qw`. This project contributes reanalysis and a commercial extension; it did not conduct the original experiment.

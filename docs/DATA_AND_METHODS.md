@@ -58,3 +58,11 @@ Baseline-score heterogeneity uses a pooled pre-treatment mean for the continuous
 ## Contribution boundaries
 
 Original researchers: experiment, data collection, task design and original findings. This project: independently ported cleaning, simplified estimators, robustness checks, SQL analysis, documented commercial extension and reproducible communication.
+
+## Task-specific sensitivity extension
+
+The weekly status-email example varies eligible task frequency (4, 8, 20 per month) and incremental checking time (1, 3, 5 minutes), holding the other configured assumptions fixed. Its SQL calculation is checked against Python. It uses the historical estimate as an input and does not estimate a new email-writing effect. Full seat and support costs are allocated to this workflow; other paid-tool uses are omitted. Four weeks is a simplifying scenario convention, and actual task duration could make the historical saving inapplicable. The extension is exploratory and was added after the main results were known.
+
+## Differences from the initial analysis plan
+
+The plan mentions willingness to pay, but no willingness-to-pay analysis is included in the final project. Those selected-user hypothetical responses would not provide a company purchase price or a market demand curve, so that topic is left outside the final scope. The paired-grader fixed-effect sensitivity model and the expanded SQL/task examples were added as supplementary checks after the initial plan; they are not presented as newly preregistered analyses. The two primary outcomes and their primary estimators remain as documented.

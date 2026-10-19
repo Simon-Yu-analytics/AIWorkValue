@@ -79,7 +79,19 @@ for review in (1, 2, 3, 4):
           "monthly net capacity value:", round(case["net_capacity_value_month"],2))
 print("Released capacity is not automatically cash savings.")
 ''')
-    md("![Business sensitivity](../figures/07_business_sensitivity.png)\n\n## 你自己的延伸\n\n选择一种熟悉的写作工作，写清与实验任务的相同/不同之处。只改变一个有业务依据的假设，重建图表，并解释哪项新的实测最可能改变投入决策。明确标记推测，不虚构访谈、员工试验或公司收益。")
+    md("![Business sensitivity](../figures/07_business_sensitivity.png)\n\n## 5. 具体任务扩展：每周项目进度邮件\n\n把每月适用次数改为 4、8、20，把额外复核改为 1、3、5 分钟，其他成本和 50% 效果迁移假设保持一致。这里重新计算情景，不是重新做邮件实验。全部订阅和支持成本计入这一流程，没有计入订阅的其他用途。")
+    code('''from aiworkvalue.task_extension import evaluate_task_extension
+config = json.loads((ROOT / "data/scenarios/weekly_status_email.json").read_text())
+task_sql = (ROOT / "sql/extensions/weekly_status_email.sql").read_text()
+extension = evaluate_task_extension(r["primary"][0], config, task_sql)
+for row in extension["cases"]:
+    print("tasks/month:", row["tasks_per_employee_month"],
+          "extra checking minutes:", row["review_minutes"],
+          "net capacity value:", round(row["net_capacity_value"], 2))
+print("SQL/Python check:", extension["reconciliation"])
+assert extension == json.loads((ROOT / "reports/extensions/weekly_status_email.json").read_text())
+''')
+    md("![Task frequency extension](../figures/extensions/weekly_status_email.png)\n\n**怎样解释？** 每周一次的任务可能产生正的时间价值，但次数不足以抵消整个月的成本。任务更多时，低复核负担的情景才可能转正。这不是采购结论：需要实际测量原始任务时长、适用次数、复核和返工。如果实际写邮件只需很短时间，直接套用历史节省分钟数就不合理。详细假设和结果见 `reports/extensions/Weekly_Status_Email.md`。")
     notebook={"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.12"}},"nbformat":4,"nbformat_minor":4}
     path=ROOT/"notebooks/01_experiment_to_business.ipynb";path.write_text(json.dumps(notebook,ensure_ascii=False,indent=1)+"\n");print(path)
 

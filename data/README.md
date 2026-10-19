@@ -7,6 +7,7 @@ The study is Noy and Zhang (2023), [Science, DOI 10.1126/science.adh2586](https:
 | Location | Contents | Distributed? |
 |---|---|---|
 | `source-manifest.json` | Public source references and file hashes | Yes |
+| `scenarios/weekly_status_email.json` | Hypothetical task-frequency/checking assumptions | Yes; no participant data |
 | `raw/` | Author survey, grading files and replication documentation | No; Git-ignored |
 | `processed/participants.csv` | Participant-level analysis variables | No; Git-ignored |
 | `processed/study.sqlite` | Participant-level SQLite table | No; Git-ignored |

@@ -2,6 +2,7 @@
 from pathlib import Path
 import json,math
 from aiworkvalue.sql_analysis import reconcile_business
+from aiworkvalue.task_extension import evaluate_task_extension
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -25,13 +26,18 @@ def main():
     for key in ["conservative","base","upside"]:
         b=r["business"][key]
         assert math.isclose(b["capacity_value_month"]-b["recurring_cost_month"],b["net_capacity_value_month"])
+    config=json.loads((ROOT/"data/scenarios/weekly_status_email.json").read_text())
+    extension=evaluate_task_extension(r["primary"][0],config,(ROOT/"sql/extensions/weekly_status_email.sql").read_text())
+    committed=json.loads((ROOT/"reports/extensions/weekly_status_email.json").read_text())
+    assert extension==committed and len(extension["cases"])==9
+    assert (ROOT/"figures/extensions/weekly_status_email.png").read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
     notebook=json.loads((ROOT/"notebooks/01_experiment_to_business.ipynb").read_text())
     assert all(c.get("execution_count") for c in notebook["cells"] if c["cell_type"]=="code")
     assert len(list((ROOT/"figures").glob("*.png")))==8
     assert (ROOT/"reports/AIWorkValue_Research_Report.pdf").read_bytes().startswith(b"%PDF")
     for file in ["reports/Executive_Memo.md","reports/SQL_Analysis.md","sql/README.md","docs/DATA_AND_METHODS.md","docs/ANALYSIS_PLAN.md"]:
         assert (ROOT/file).is_file()
-    print("Validated sample, models, 10 SQL analyses, SQL/Python reconciliation, notebook and research deliverables.")
+    print("Validated sample, models, 10 SQL analyses, nine task cases, SQL/Python reconciliation, notebook and research deliverables.")
 
 
 if __name__=="__main__":main()

@@ -21,6 +21,7 @@ def main():
         if path.suffix in {".pyc", ".zip"} or path.name == ".DS_Store":
             continue
         if (relative.as_posix() in {"data/source-manifest.json", "data/README.md"}
+                or relative.parts[:2] == ("data", "scenarios")
                 or relative.parts[0] in DIRECTORIES
                 or (len(relative.parts) == 1 and path.name in TOP_FILES)):
             files.append((path, relative))

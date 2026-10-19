@@ -1,4 +1,4 @@
-"""Build publication-style figures and a ten-page business research report."""
+"""Build the research figures and eleven-page analysis with a task extension."""
 from pathlib import Path
 import os,json
 from xml.sax.saxutils import escape
@@ -213,6 +213,19 @@ def pdf(r):
                  "Author-hosted replication package: osf.io/xd7qw/; DOI 10.17605/OSF.IO/XD7QW. The source ReadMe documents anonymization and variable definitions.",
                  "This project: independent reanalysis, estimator comparisons and commercial scenarios. It does not claim original data collection, a current-model benchmark or realized business benefits."]:
         p(escape(text),"SmallA")
+    extension=json.loads((ROOT/"reports/extensions/weekly_status_email.json").read_text())
+    cases=extension["cases"]
+    frequencies=sorted({row["tasks_per_employee_month"] for row in cases})
+    reviews=sorted({row["review_minutes"] for row in cases})
+    selected=[next(row for row in cases if row["tasks_per_employee_month"]==tasks and row["review_minutes"]==review)
+              for tasks,review in [(frequencies[0],reviews[0]),(frequencies[-1],reviews[0]),(frequencies[-1],reviews[len(reviews)//2])]]
+    page(11,"Would a weekly status email cover the tool cost?","Task-specific sensitivity exercise")
+    p(f"This hypothetical extension varies task frequency and extra checking time for internal project-status writing. Other configured costs and the assumed {extension['config']['base_assumptions']['transferability']:.0%} transfer of the historical effect remain fixed. No new email experiment or company data were collected.")
+    chart("extensions/weekly_status_email.png",210)
+    table([["Tasks/person/month", "Extra checking min/task", "Capacity hours/month", "Net capacity value/month"]]+
+          [[f"{row['tasks_per_employee_month']:g}",f"{row['review_minutes']:g}",f"{row['capacity_hours']:.1f}",f"${row['net_capacity_value']:,.0f}"] for row in selected],[105,115,120,140])
+    p("Fewer eligible tasks leave fewer opportunities to recover recurring costs. Extra checking reduces the time gained from each task. Positive time value can therefore coexist with negative net capacity value. The full nine-case SQL/Python calculation is saved with an editable configuration and narrative in the repository.")
+    p("All seat/support costs are charged to this workflow; other uses of a shared subscription are not valued. Four weeks is a simplifying monthly convention. The historical saving was not measured on emails: actual task time could be too short to support the assumed saving. Measure full time to accepted output and task frequency before drawing a purchase conclusion.","SmallA")
     def footer(c,doc):
         c.setStrokeColor(colors.HexColor("#DDE5E8"));c.line(52,40,543,40);c.setFont("Helvetica",8);c.setFillColor(colors.HexColor(GRAY))
         c.drawString(52,27,"AIWORKVALUE  |  Independent historical reanalysis + hypothetical commercial extension")

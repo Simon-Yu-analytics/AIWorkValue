@@ -38,6 +38,10 @@ The local database is `data/processed/study.sqlite`. It contains the participant
 
 Three named scenarios and all 36 sensitivity points must match Python's commercial calculations within a strict floating-point tolerance. Tests also check sample-variance standardization, missing outcome pairs, follow-up nonresponse and zero-seat boundaries. `make check` runs these tests without downloading research data, using clearly labeled mathematical fixtures and committed aggregate assumptions.
 
+## Task-specific extension
+
+[weekly_status_email.sql](extensions/weekly_status_email.sql) adds a separate nine-case frequency/checking comparison. It uses an in-memory input table, a CROSS JOIN of explicit assumptions and staged CTE calculations. Run `make extension`; the [scenario configuration](../data/scenarios/weekly_status_email.json) and committed historical effect are sufficient, so no participant data is required. See the [case results and explanation](../reports/extensions/Weekly_Status_Email.md).
+
 ## Interpretation
 
 - SQL's difference in changes is descriptive and unadjusted; it is not the primary ANCOVA coefficient or its uncertainty interval.

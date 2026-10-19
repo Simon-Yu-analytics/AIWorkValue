@@ -1,0 +1,165 @@
+{
+  "task": "Drafting a weekly internal project-status email",
+  "status": "Hypothetical sensitivity exercise; no new task experiment or company observations",
+  "config": {
+    "task": "Drafting a weekly internal project-status email",
+    "status": "Hypothetical sensitivity exercise; no new task experiment or company observations",
+    "base_assumptions": {
+      "employees": 200,
+      "rollout_coverage": 0.5,
+      "transferability": 0.5,
+      "loaded_hourly_value": 35,
+      "assumed_seat_cost_month": 25,
+      "fixed_operating_cost_month": 500,
+      "setup_cost": 3000
+    },
+    "frequencies": [
+      {
+        "label": "Weekly only",
+        "tasks_per_employee_month": 4
+      },
+      {
+        "label": "Twice weekly",
+        "tasks_per_employee_month": 8
+      },
+      {
+        "label": "Roughly each working day",
+        "tasks_per_employee_month": 20
+      }
+    ],
+    "extra_review_minutes": [
+      1,
+      3,
+      5
+    ],
+    "frequency_note": "Four weeks and twenty working days are simplifying scenario conventions, not measured calendar averages. Higher frequencies represent a broader set of comparable status-writing tasks.",
+    "cost_allocation_note": "The entire offered-seat and support cost is charged to this workflow. Other productive uses of the same subscription are not valued.",
+    "transfer_note": "The historical effect is not measured on this email task. If current drafting time is shorter than the assumed saving, the extrapolation is unsuitable; actual end-to-end time must be measured."
+  },
+  "historical_minutes_saved": 10.339471774902234,
+  "sql": "-- Frequency and checking time change; other cost assumptions remain fixed.\n-- All values are conditional capacity values, not observed cash savings.\nWITH parameters AS (\n    SELECT :minutes_saved AS minutes_saved, :saved_low AS saved_low, :saved_high AS saved_high,\n           :employees * :rollout_coverage AS offered_seats,\n           :transferability AS transferability, :loaded_hourly_value AS hourly_value,\n           :assumed_seat_cost_month AS seat_cost, :fixed_operating_cost_month AS fixed_cost\n), task_margins AS (\n    SELECT i.*, p.*,\n           minutes_saved * transferability - review_minutes AS net_minutes_per_task,\n           saved_low * transferability - review_minutes AS net_minutes_low,\n           saved_high * transferability - review_minutes AS net_minutes_high,\n           offered_seats * seat_cost + fixed_cost AS recurring_cost\n    FROM extension_inputs AS i CROSS JOIN parameters AS p\n), capacity AS (\n    SELECT *, offered_seats * tasks_per_employee_month * net_minutes_per_task / 60.0 AS capacity_hours\n    FROM task_margins\n)\nSELECT frequency, tasks_per_employee_month, review_minutes, offered_seats,\n       net_minutes_per_task, capacity_hours, recurring_cost,\n       capacity_hours * hourly_value - recurring_cost AS net_capacity_value,\n       offered_seats * tasks_per_employee_month * net_minutes_low / 60.0 * hourly_value - recurring_cost AS effect_only_low,\n       offered_seats * tasks_per_employee_month * net_minutes_high / 60.0 * hourly_value - recurring_cost AS effect_only_high,\n       CASE WHEN offered_seats > 0 AND net_minutes_per_task > 0 AND hourly_value > 0\n            THEN recurring_cost * 60.0 / (offered_seats * net_minutes_per_task * hourly_value)\n       END AS operating_break_even_tasks_per_employee_month\nFROM capacity ORDER BY tasks_per_employee_month, review_minutes;\n",
+  "cases": [
+    {
+      "frequency": "Weekly only",
+      "tasks_per_employee_month": 4.0,
+      "review_minutes": 1.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 4.169735887451117,
+      "capacity_hours": 27.798239249674115,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -2027.061626261406,
+      "effect_only_low": -2288.757726394625,
+      "effect_only_high": -1765.3655261281872,
+      "operating_break_even_tasks_per_employee_month": 12.333771926261921
+    },
+    {
+      "frequency": "Weekly only",
+      "tasks_per_employee_month": 4.0,
+      "review_minutes": 3.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 2.1697358874511172,
+      "capacity_hours": 14.464905916340781,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -2493.7282929280727,
+      "effect_only_low": -2755.4243930612915,
+      "effect_only_high": -2232.0321927948535,
+      "operating_break_even_tasks_per_employee_month": 23.7026873759215
+    },
+    {
+      "frequency": "Weekly only",
+      "tasks_per_employee_month": 4.0,
+      "review_minutes": 5.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 0.16973588745111723,
+      "capacity_hours": 1.1315725830074481,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -2960.3949595947392,
+      "effect_only_low": -3222.091059727958,
+      "effect_only_high": -2698.6988594615204,
+      "operating_break_even_tasks_per_employee_month": 302.99173734477637
+    },
+    {
+      "frequency": "Twice weekly",
+      "tasks_per_employee_month": 8.0,
+      "review_minutes": 1.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 4.169735887451117,
+      "capacity_hours": 55.59647849934823,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -1054.123252522812,
+      "effect_only_low": -1577.5154527892498,
+      "effect_only_high": -530.7310522563744,
+      "operating_break_even_tasks_per_employee_month": 12.333771926261921
+    },
+    {
+      "frequency": "Twice weekly",
+      "tasks_per_employee_month": 8.0,
+      "review_minutes": 3.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 2.1697358874511172,
+      "capacity_hours": 28.929811832681562,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -1987.4565858561455,
+      "effect_only_low": -2510.848786122583,
+      "effect_only_high": -1464.0643855897074,
+      "operating_break_even_tasks_per_employee_month": 23.7026873759215
+    },
+    {
+      "frequency": "Twice weekly",
+      "tasks_per_employee_month": 8.0,
+      "review_minutes": 5.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 0.16973588745111723,
+      "capacity_hours": 2.2631451660148962,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -2920.7899191894785,
+      "effect_only_low": -3444.1821194559166,
+      "effect_only_high": -2397.397718923041,
+      "operating_break_even_tasks_per_employee_month": 302.99173734477637
+    },
+    {
+      "frequency": "Roughly each working day",
+      "tasks_per_employee_month": 20.0,
+      "review_minutes": 1.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 4.169735887451117,
+      "capacity_hours": 138.99119624837058,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": 1864.6918686929703,
+      "effect_only_low": 556.2113680268749,
+      "effect_only_high": 3173.1723693590657,
+      "operating_break_even_tasks_per_employee_month": 12.333771926261921
+    },
+    {
+      "frequency": "Roughly each working day",
+      "tasks_per_employee_month": 20.0,
+      "review_minutes": 3.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 2.1697358874511172,
+      "capacity_hours": 72.32452958170391,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -468.6414646403632,
+      "effect_only_low": -1777.1219653064582,
+      "effect_only_high": 839.8390360257317,
+      "operating_break_even_tasks_per_employee_month": 23.7026873759215
+    },
+    {
+      "frequency": "Roughly each working day",
+      "tasks_per_employee_month": 20.0,
+      "review_minutes": 5.0,
+      "offered_seats": 100.0,
+      "net_minutes_per_task": 0.16973588745111723,
+      "capacity_hours": 5.657862915037241,
+      "recurring_cost": 3000.0,
+      "net_capacity_value": -2801.9747979736967,
+      "effect_only_low": -4110.455298639791,
+      "effect_only_high": -1493.4942973076018,
+      "operating_break_even_tasks_per_employee_month": 302.99173734477637
+    }
+  ],
+  "reconciliation": {
+    "status": "passed",
+    "cases": 9,
+    "max_absolute_difference": 0.0
+  }
+}

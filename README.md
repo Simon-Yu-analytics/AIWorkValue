@@ -2,6 +2,8 @@
 
 [**Read the analysis report →**](reports/AIWorkValue_Research_Report.pdf) · [Business summary](reports/Executive_Memo.md) · [Executed notebook](notebooks/01_experiment_to_business.ipynb) · [SQL findings](reports/SQL_Analysis.md)
 
+[Specific task extension: weekly project-status email](reports/extensions/Weekly_Status_Email.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Analysis checks](https://github.com/Simon-Yu-analytics/AIWorkValue/actions/workflows/ci.yml/badge.svg)](https://github.com/Simon-Yu-analytics/AIWorkValue/actions/workflows/ci.yml)
 
@@ -52,7 +54,7 @@ Hypothetical costs, checking time and break-even calculation
 |---|---|
 | ![Adjusted time and quality contrasts](figures/02_primary_effects.png) | ![Value under transferability and extra-checking assumptions](figures/07_business_sensitivity.png) |
 
-The [10-page report](reports/AIWorkValue_Research_Report.pdf) presents the full analysis. The [figure gallery](figures/README.md) contains the additional plots.
+The [11-page report](reports/AIWorkValue_Research_Report.pdf) presents the analysis and task extension. The [figure gallery](figures/README.md) contains the additional plots.
 
 ## Methods and scope
 
@@ -78,6 +80,12 @@ Supporting queries cover the sample funnel, design coverage, follow-up use, a se
 
 SQL's unadjusted change comparison is distinct from the Python regression. The SQL extension was added after the main estimates were known and is not a preregistered analysis.
 
+## A concrete task extension
+
+For a [weekly project-status email](reports/extensions/Weekly_Status_Email.md), the extension compares 4, 8 and 20 eligible tasks/month with 1, 3 and 5 extra checking minutes/task, holding other assumptions fixed. Charging the full subscription/support cost to this workflow makes weekly-only use negative in all three checking cases. More frequent eligible work can support the cost when checking effort is low.
+
+The [editable configuration](data/scenarios/weekly_status_email.json), [SQL query](sql/extensions/weekly_status_email.sql), Python cross-check and notebook make this a reproducible calculation. This is not a new experiment on emails. A short email may not support the assumed historical saving, and other uses of the same paid tool would change the cost allocation.
+
 ## Reproduce
 
 Use Python 3.12+ from the repository root:
@@ -97,6 +105,7 @@ make check
 make download   # download author-hosted files and verify hashes
 make run        # reconstruct data, fit models and run SQL
 make sql        # optionally rerun just SQL
+make extension  # rebuild the specific task example from aggregate inputs
 make report     # rebuild figures and the PDF
 make notebook   # rebuild the executed walkthrough
 make check
@@ -111,7 +120,7 @@ notebooks/        executed walkthrough
 sql/              analysis views, core queries and supporting checks
 src/aiworkvalue/   data reconstruction, models and business calculations
 reports/          PDF, business summary, SQL findings and aggregate outputs
-figures/          eight reproducible plots
+figures/          eight main plots plus the task-extension chart
 docs/             scope, assumptions, methods and Chinese walkthrough
 data/             source manifest; raw/ and processed/ stay local
 scripts/          download, analysis and artifact builders
@@ -136,4 +145,4 @@ The source OSF node declared no license in its metadata when inspected. Raw file
 
 **Junhui (Simon) Yu — AIWorkValue portfolio project.** AI tools assisted code and draft preparation. The original study is credited above; [project scope](docs/PROJECT_SCOPE.md) distinguishes implemented work from personal understanding and future extensions.
 
-A useful next step is to personally reproduce the analysis and develop one well-explained task-volume or checking-time scenario. This repository does not claim that extension has already been completed. Original project code and documentation use the [MIT License](LICENSE).
+The weekly-email sensitivity extension is implemented. A useful next step is to reproduce it and measure task frequency and total checking time for a real workflow; those observations have not been collected here. Original project code and documentation use the [MIT License](LICENSE).

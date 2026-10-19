@@ -9,6 +9,7 @@ AIWorkValue is a personal business analytics project using public research data.
 3. Fit one baseline-adjusted regression for completion time and one for writing quality.
 4. Check whether time results change when using a different time measure or comparing changes from baseline.
 5. Build a hypothetical cost example and investigate how task frequency and extra checking affect it.
+6. Apply that calculation to a [weekly status-email example](../reports/extensions/Weekly_Status_Email.md), comparing nine frequency/checking combinations in SQL and Python.
 
 For a first review, read the main README, the notebook, SQL files `02`, `03`, `04`, `07` and `08`, and the [business assumptions](BUSINESS_ASSUMPTIONS.md). These cover the main argument without requiring every optional model.
 
@@ -22,8 +23,8 @@ The detailed [data and methods](DATA_AND_METHODS.md), [research card](RESEARCH_C
 
 Noy and Zhang designed and conducted the original experiment and collected the data. This repository contributes a Python reconstruction, SQL analysis, estimator comparisons, visualizations and a hypothetical business extension. It does not report a newly collected experiment, a client project, an actual deployment or measured company savings.
 
-AI tools assisted code and draft preparation in this repository. Their assistance does not establish the author's independent mastery of every implemented method. Any personal application statement should accurately describe the work the author has reproduced, checked and extended, and follow the receiving institution's disclosure requirements.
+AI tools assisted implementation and draft preparation. Sources, assumptions and executable calculations are documented so readers can inspect and reproduce the work. Personal application statements should accurately describe the author's contribution and follow the receiving institution's disclosure requirements.
 
-## What would strengthen it next?
+## Completed extension and remaining evidence
 
-The most useful next addition is a clearly documented analysis the author personally completes and can defend: for example, changing the task-volume assumption for a specific writing workflow, explaining its basis, and interpreting the revised break-even result. That extension has not been claimed as completed here. There is no need to add another application, complicated model or fictitious company engagement merely to increase the apparent scope.
+The task-volume extension is implemented in a scenario configuration, a SQL query, a Python cross-check, an executed notebook section and a narrative with a chart. It is a completed hypothetical calculation, not a personally conducted field study. No email-task observations or company pilot have been collected. The next evidence would be actual task frequency and full checking time for one workflow; personal understanding should be developed by reproducing and explaining the existing calculations.

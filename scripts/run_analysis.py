@@ -21,6 +21,7 @@ def main():
                     "analysis_date":"2026-10-19","python":platform.python_version(),
                     "packages":{k:importlib.metadata.version(k) for k in ["numpy","pandas","scipy","statsmodels"]},
                     "claim":"Independent reanalysis plus commercial scenarios, not an original experiment or exact author-code replication."}
+    (ROOT/"data/processed").mkdir(parents=True,exist_ok=True)
     d.to_csv(ROOT/"data/processed/participants.csv",index=False)
     with sqlite3.connect(ROOT/"data/processed/study.sqlite") as con:
         cols=["prolific_pid","assignment","occupation","incentive_arm","a_first","primary_arm",

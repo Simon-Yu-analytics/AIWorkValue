@@ -38,13 +38,13 @@
     },
     {
       "path": "dashboard/README.md",
-      "bytes": 2487,
-      "sha256": "9cd8d6bfd6e65d4ecaebab27dfb87cdff8ceba283e2cb0cd86f406227a8dfc2c"
+      "bytes": 2748,
+      "sha256": "ed8d21013f76d3abfd7299d74428213e275d46389322faa050daa0dc2b2dfc4e"
     },
     {
       "path": "dashboard/app.py",
-      "bytes": 11422,
-      "sha256": "bc0f714cc27432b2c0cb5e77343e4d5c8f639e39d73fb6560bfa79f781039c18"
+      "bytes": 12375,
+      "sha256": "800ac269a6c23512da11d7cdb03b44f783bbdd5947df68cb6de89f92e5a89adb"
     },
     {
       "path": "data/README.md",
@@ -148,13 +148,13 @@
     },
     {
       "path": "figures/dashboard/business_decision.jpg",
-      "bytes": 104749,
-      "sha256": "1a11b5265a3bf57cfbfefffc98321a2b8aae2397adca2b61ea4f281f7ebb619f"
+      "bytes": 107270,
+      "sha256": "bd9a7bb531dbc703af2eed81d31a52874122948719d1c702483e4ade0fa14745"
     },
     {
       "path": "figures/dashboard/business_sensitivity.jpg",
-      "bytes": 96700,
-      "sha256": "224c1d8fbbd59355983aa80db93967ab8c4b631c9228891ff5622fd0cbadba68"
+      "bytes": 96249,
+      "sha256": "4f01a67f2b02f21634a235c3bb744e9c5ae9810b73e0523be719b254930cdea0"
     },
     {
       "path": "figures/dashboard/experiment_overview.jpg",
@@ -178,8 +178,8 @@
     },
     {
       "path": "reports/AIWorkValue_Research_Report.pdf",
-      "bytes": 718156,
-      "sha256": "418fe06cb7a8579da9f083e4b8f715e8bd674b9c6a7f2e884f4018933a2240b1"
+      "bytes": 721299,
+      "sha256": "5a4badcff463f38741867c5aaba81654abfe427206cf5e1b6ebe5b2cfac2c381"
     },
     {
       "path": "reports/Executive_Memo.md",
@@ -288,13 +288,13 @@
     },
     {
       "path": "scripts/validate_outputs.py",
-      "bytes": 3721,
-      "sha256": "4edebe318252788d2460caee63ee0b24d6ab31bfd34d9b9a533722845f86d1d8"
+      "bytes": 4299,
+      "sha256": "2ddc37b87c9b2a000f351e070ab3eda39b12ac880e3a7cc194404d668b129711"
     },
     {
       "path": "scripts/validate_research.py",
-      "bytes": 5901,
-      "sha256": "e1f93385a9294bf15162af01820a3431afe06c91241b3024b4d0cd9044957dec"
+      "bytes": 5922,
+      "sha256": "ec23ba96a8378927dc947797d0fa23106f1a0c700e9c6a87f8204b98e8baa228"
     },
     {
       "path": "sql/00_analysis_layer.sql",
@@ -418,13 +418,13 @@
     },
     {
       "path": "src/aiworkvalue/warehouse.py",
-      "bytes": 5228,
-      "sha256": "c8b8483e61c703482e9a37b43128ed98087a48994de53aa5216c4cc6c2682bfa"
+      "bytes": 5231,
+      "sha256": "19c3ea506150d7f7e39ecfc01a05785f33febb0682467749188404bd13533e01"
     },
     {
       "path": "tests/test_dashboard.py",
-      "bytes": 1374,
-      "sha256": "db29546b207365fd53345695042f76f748e632fb07d7208f8a211398266d4f56"
+      "bytes": 2586,
+      "sha256": "c6bd42dcd7875198aae7809c756e2a7734e94964a325f828f11e3aa108dac724"
     },
     {
       "path": "tests/test_research.py",

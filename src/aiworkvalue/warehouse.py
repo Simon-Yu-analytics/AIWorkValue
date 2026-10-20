@@ -62,7 +62,7 @@ def load_warehouse(frame, database, sql_dir):
                 if col in ("prolific_pid", "occupation", "incentive_arm"):
                     if mart[col].tolist() != expected[col].tolist():
                         raise ValueError(f"Warehouse round-trip changed {col}")
-                elif not np.allclose(mart[col].to_numpy(dtype=float), expected[col].to_numpy(dtype=float), equal_nan=True):
+                elif not np.array_equal(mart[col].to_numpy(dtype=float), expected[col].to_numpy(dtype=float), equal_nan=True):
                     raise ValueError(f"Warehouse round-trip changed {col}")
             cursor = connection.execute("SELECT * FROM mart_experiment_kpi ORDER BY assignment, occupation, period_name")
             names = [c[0] for c in cursor.description]

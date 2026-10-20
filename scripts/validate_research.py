@@ -30,9 +30,9 @@ def main():
         se=float(np.sqrt(covariance[index,index]))
         df=len(y)-np.linalg.matrix_rank(x)
         interval=(beta[index]+np.array([-1,1])*t.ppf(.975,df)*se).tolist()
-        if not np.isclose(beta[index],row["coefficient"],atol=1e-10) or not np.isclose(se,row["standard_error"],atol=1e-10):
+        if not np.isclose(beta[index],row["coefficient"],rtol=0,atol=1e-10) or not np.isclose(se,row["standard_error"],rtol=0,atol=1e-10):
             raise AssertionError("Independent HC3 calculation does not match the primary model.")
-        if not np.allclose(interval,row["ci95"],atol=1e-10):
+        if not np.allclose(interval,row["ci95"],rtol=0,atol=1e-10):
             raise AssertionError("Primary t interval mismatch.")
         checks.append({"model":row["name"],"n":len(y),"design_columns":x.shape[1],
                        "rank":int(np.linalg.matrix_rank(x)),"residual_df":int(df),

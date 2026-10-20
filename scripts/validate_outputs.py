@@ -24,9 +24,17 @@ def main():
     assert [row["stage"] for row in pipeline["stages"]]==["Extract","Transform","Validate","Load","Analyze"]
     assert all(row["status"]=="passed" for row in pipeline["stages"])
     research=json.loads((ROOT/"reports/research-validation.json").read_text())
+    assert len(research["primary_model_checks"])==len(r["primary"])==2
+    assert research["sample_audit"]==r["audit"]
+    assert research["interaction_tests"]==r["heterogeneity"]["interaction_tests"]
+    assert research["conditional_effects"]==r["heterogeneity"]["conditional_effects"]
     for audit,model in zip(research["primary_model_checks"],r["primary"]):
+        assert audit["model"]==model["name"] and audit["status"]=="passed"
         assert audit["n"]==model["n"] and audit["rank"]==audit["design_columns"]
-        assert math.isclose(audit["independent_hc3_se"],model["standard_error"],abs_tol=1e-10)
+        assert math.isclose(audit["independent_hc3_se"],model["standard_error"],rel_tol=0,abs_tol=1e-10)
+        assert len(audit["independent_ci95"])==len(model["ci95"])==2
+        assert all(math.isclose(a,b,rel_tol=0,abs_tol=1e-10)
+                   for a,b in zip(audit["independent_ci95"],model["ci95"]))
     sql=json.loads((ROOT/"reports/sql-summaries.json").read_text())
     assert sql["schema_version"]==2 and len(sql["queries"])==10
     assert reconcile_business(sql["queries"],r)["status"]=="passed"

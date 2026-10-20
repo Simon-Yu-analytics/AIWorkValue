@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 import sys
-from dataclasses import replace, asdict
+from dataclasses import replace
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -131,15 +131,25 @@ else:
     minimum = case["operating_break_even_tasks_per_employee_month"]
     maximum = case["max_review_minutes_at_operating_break_even"]
     c1.metric("Operating seat-cost ceiling", "Undefined" if ceiling is None else f"${ceiling:.2f}/month")
-    c2.metric("Tasks/person/month to break even", "No positive task margin" if minimum is None else f"{minimum:.1f}")
+    c2.metric("Tasks/person/month to break even", "Undefined" if minimum is None else f"{minimum:.1f}")
     c3.metric("Extra-review budget to break even", "Undefined" if maximum is None else f"{maximum:.2f} min")
+    payback = case["capacity_value_payback_months"]
+    payback_text = ("not reached at the selected monthly value" if payback is None
+                    else f"{payback:.1f} months")
+    st.caption(f"One-time setup: USD {setup:,.0f}. Illustrative capacity-value payback: {payback_text}. Setup is separate from recurring monthly costs; this is not cash-investment payback.")
+    if case["offered_employees"] == 0:
+        st.info("No seats are offered. Per-seat and task-frequency break-even values are undefined; fixed operating costs remain in the scenario.")
+    elif minimum is None:
+        st.info("Increasing task volume cannot cover costs when net capacity value per task is nonpositive.")
+    if (ceiling is not None and ceiling < 0) or (maximum is not None and maximum < 0):
+        st.caption("A negative seat-cost ceiling or review budget means even zero seat cost or zero extra review, respectively, cannot cover recurring costs with the other inputs fixed.")
     frequencies = [4,8,12,16,20,30,40]
     reviews = [0,1,2,3,4,5]
     z = [[value_case(saved, replace(scenario, eligible_tasks_per_employee_month=f, additional_review_minutes=r))["net_capacity_value_month"] for f in frequencies] for r in reviews]
     fig = go.Figure(go.Heatmap(x=frequencies, y=reviews, z=z, colorscale="RdYlGn", zmid=0, colorbar_title="USD/month"))
     fig.update_layout(title="Sensitivity: task frequency × extra review", xaxis_title="Tasks/person/month", yaxis_title="Extra review min/task")
     st.plotly_chart(style_chart(fig), width="stretch")
-    st.write("**Decision readout:** " + ("The selected point scenario covers recurring costs; verify the inputs and downside before considering purchase." if case["net_capacity_value_month"] > 0 else "The selected scenario does not cover recurring costs. Investigate task fit, actual checking effort and shared uses before drawing a purchase conclusion."))
+    st.write("**Decision readout:** " + ("The selected point scenario covers recurring costs; verify the inputs and downside before considering purchase." if case["net_capacity_value_month"] >= 0 else "The selected scenario does not cover recurring costs. Investigate task fit, actual checking effort and shared uses before drawing a purchase conclusion."))
     st.caption("Released capacity is not cash savings. Quality is not monetized. Baseline duration and all review/revision/rework inputs require measurement; the historical experiment did not estimate this new workflow.")
     st.download_button("Download scenario assumptions and calculation", json.dumps(case, indent=2), "aiworkvalue_scenario.json", "application/json")
 

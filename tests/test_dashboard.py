@@ -28,3 +28,23 @@ class DashboardTests(unittest.TestCase):
         app.slider(key="rework_probability").set_value(100).run()
         self.assertFalse(app.exception)
         self.assertNotEqual(cap_value,app.metric[0].value)
+
+    def test_setup_cost_changes_payback_but_not_recurring_monthly_value(self):
+        app=AppTest.from_file(str(ROOT/"dashboard/app.py"),default_timeout=30).run()
+        app.radio(key="analysis_view").set_value("Business Decision").run()
+        app.number_input(key="review").set_value(1.0).run()
+        monthly=app.metric[0].value
+        self.assertTrue(any("payback: 5.2 months" in c.value for c in app.caption))
+        app.number_input(key="setup").set_value(6000.0).run()
+        self.assertFalse(app.exception)
+        self.assertEqual(monthly,app.metric[0].value)
+        self.assertTrue(any("payback: 10.3 months" in c.value for c in app.caption))
+
+    def test_zero_coverage_keeps_fixed_cost_and_undefined_boundaries(self):
+        app=AppTest.from_file(str(ROOT/"dashboard/app.py"),default_timeout=30).run()
+        app.radio(key="analysis_view").set_value("Business Decision").run()
+        app.slider(key="coverage").set_value(0).run()
+        self.assertFalse(app.exception)
+        self.assertEqual(app.metric[0].value,"$-500")
+        self.assertTrue(all(m.value=="Undefined" for m in app.metric[3:6]))
+        self.assertTrue(any("No seats are offered" in info.value for info in app.info))

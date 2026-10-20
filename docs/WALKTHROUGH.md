@@ -31,19 +31,23 @@ Read the [SQL guide](../sql/README.md) and [generated findings](../reports/SQL_A
 
 All three named business scenarios and 36 sensitivity points are checked against Python. Missing follow-up responses remain missing rather than becoming recorded non-use.
 
+Trace a source participant through the [five dimensions and two facts](DATA_MODEL.md), then explain why the participant mart prevents a many-to-many fact join. Follow the [pipeline stages](PIPELINE.md) and inspect `reports/pipeline-audit.json` for validation, row counts and reconciliation. Re-running the pipeline replaces a validated snapshot; it does not append a second copy of the study.
+
 ## 3. Re-estimate the statistical models
 
 Run the notebook cell by cell. Compare descriptive group means, changes from baseline and baseline-adjusted regression.
 
 The time coefficient is measured in minutes. The quality coefficient is measured in points on a 1–7 writing scale; +0.70 points does not mean a 70% increase in factual accuracy. Understand why uncertainty is reported, what HC3 robust standard errors address, and why two primary tests receive Holm adjustment.
 
-The participant-average quality estimator is simpler than the original paper's full specification. The paired-grader fixed-effect model is a supplementary check, not evidence of exact replication of every published coefficient. Baseline-score interactions are exploratory.
+The participant-average quality estimator is simpler than the original paper's full specification. The paired-grader fixed-effect model is a supplementary check, not evidence of exact replication of every published coefficient. Baseline-score interactions and conditional effects are exploratory; consider baseline measurement noise, ceiling effects and multiple comparisons. Read the independent [HC3 validation](../reports/Research_Validation.md) to distinguish a numerical implementation check from a causal-design guarantee.
 
 ## 4. Reproduce the task extension
 
 Read the [weekly status-email case](../reports/extensions/Weekly_Status_Email.md) and run `make extension`. Inspect its [configuration](../data/scenarios/weekly_status_email.json) and [SQL](../sql/extensions/weekly_status_email.sql).
 
 The example compares 4, 8 and 20 eligible tasks per month with 1, 3 and 5 extra checking minutes per task. Explain why weekly-only use can release time while failing to cover subscription costs. Also explain why charging the entire subscription to one workflow differs from valuing several uses of the same tool.
+
+The baseline email task lasts 10 minutes. Gross savings are capped at that duration; review, 0.5 minutes of revision and an assumed 20% chance of 3 minutes of rework are then deducted. Explain why the historical regression coefficient cannot simply be applied as unlimited email savings, and why a positive point estimate can coexist with an effect-only interval crossing zero. Task duration, revision and rework inputs are assumptions, not measurements from the original experiment.
 
 Change one clearly labeled assumption, rebuild the results and interpret the change. Without new observations, keep it a hypothetical sensitivity exercise. Do not present it as an email experiment, company interview or measured saving.
 
@@ -60,3 +64,5 @@ Useful questions to practice:
 - Which missing measurement is most likely to change the decision?
 
 The original researchers conducted the experiment and collected the data. This repository contributes reanalysis, SQL, robustness comparisons and a hypothetical commercial extension, with AI assistance disclosed in the project scope. Personal descriptions should accurately reflect the work the author has reproduced, checked and understood.
+
+Run `make dashboard` to explore the three dashboard views. Occupation filters describe observed outcomes; they do not refit the primary regression. In the business view, change task duration, checking time and frequency, then explain the effect on net capacity and break-even volume. The displayed monetary result is hypothetical capacity value after recurring costs, not measured cash profit.

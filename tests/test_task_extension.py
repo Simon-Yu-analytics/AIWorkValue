@@ -13,6 +13,7 @@ class TaskExtensionTests(unittest.TestCase):
         self.sql = (ROOT / "sql/extensions/weekly_status_email.sql").read_text()
 
     def test_frequency_and_review_can_reverse_a_known_cost_case(self):
+        self.config["base_assumptions"].update(revision_minutes=0,rework_probability=0,rework_minutes=0)
         result = evaluate_task_extension({"coefficient": -10, "ci95": [-11, -9]}, self.config, self.sql)
         rows = {(r["tasks_per_employee_month"], r["review_minutes"]): r for r in result["cases"]}
         # 100 seats, 4 tasks, (10*0.5 - 1) minutes, $35/hour, $3,000 recurring cost.
@@ -25,6 +26,17 @@ class TaskExtensionTests(unittest.TestCase):
         for row in rows.values():
             self.assertLessEqual(row["effect_only_low"], row["net_capacity_value"])
             self.assertGreaterEqual(row["effect_only_high"], row["net_capacity_value"])
+
+    def test_baseline_cap_revision_and_expected_rework_reconcile(self):
+        self.config["base_assumptions"].update(baseline_task_minutes=2,revision_minutes=.5,
+                                                rework_probability=.2,rework_minutes=5)
+        self.config["extra_review_minutes"]=[.5]
+        result=evaluate_task_extension({"coefficient":-20,"ci95":[-22,-18]},self.config,self.sql)
+        for row in result["cases"]:
+            self.assertEqual(row["net_minutes_per_task"],0)
+            self.assertEqual(row["ai_workflow_minutes"],2)
+            self.assertEqual(row["net_capacity_value"],-3000)
+            self.assertIsNone(row["operating_break_even_tasks_per_employee_month"])
 
     def test_invalid_or_duplicate_task_inputs_are_rejected(self):
         self.config["extra_review_minutes"] = [-1]

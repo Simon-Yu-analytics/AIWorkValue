@@ -15,6 +15,8 @@ This is a worked example, not a client engagement. No company supplied these inp
 | Eligible tasks per offered employee/month | 20 | Illustrates roughly one suitable task per working day; the frequency is not observed in the study | Task logs or a short diary, including tasks where AI cannot help |
 | Share of historical time effect that transfers | 50% | A chosen sensitivity input, not a fitted parameter or evidence-based forecast; other values are tested | A comparison of comparable tasks with and without the tool |
 | Additional checking time | 2 minutes/task | Incremental checking beyond workflow time already reflected in the study estimate; not all editing time should be charged twice | Checking and rework attributable to AI output |
+| Baseline task duration | 30 minutes in the reference case | A round illustrative cap, not a company measurement; it does not bind the reference saving | Full original workflow time at acceptable quality |
+| Additional revision and expected rework | 0 in the reference case | Keeps the original reference result comparable; the email extension explicitly includes these costs | Incremental correction/rework beyond source-study workflow effort |
 | Value of employee time | $35/hour | An illustrative value for released capacity, not a wage estimate or automatic budget saving | Relevant loaded cost and how released time would actually be used |
 | Seat cost | $25/month | A hypothetical input, not a current vendor price or product recommendation | A quote for the actual plan and number of paid seats |
 | Fixed support cost | $500/month | A simplified allowance for ongoing administration/support; no actual invoice is claimed | Actual recurring support and administration effort |
@@ -29,6 +31,14 @@ Under the base assumptions, the calculation produces about **106 hours of releas
 The operating case turns nonpositive when additional checking exceeds about **2.6 minutes/task**, or when eligible task volume falls below about **16 tasks per offered employee/month**, with other base assumptions held fixed. These are useful quantities to investigate, not universal thresholds.
 
 The next practical step would be to measure task frequency and full checking time for one narrow workflow. The project does not establish a reason to purchase tools for an entire company today.
+
+## Bounded email-workflow model
+
+The email extension uses a separate, explicit **10-minute baseline**, **0.5 revision minutes** and **20% rework probability × 3 rework minutes**. These are assumptions, not observed task characteristics. Gross saving is `min(historical assignment minutes × transferability, baseline duration)`. Net saving subtracts review, revision and expected rework; AI workflow duration equals baseline minus net saving. This prevents impossible savings and permits a slower AI workflow if overhead outweighs the saving.
+
+At four tasks/month and one review minute, net capacity value is about −$2,284/month; at 20 tasks with the same review it is about +$581/month. At three review minutes and 20 tasks, it is about −$1,752/month. These figures replace the earlier email calculation that omitted explicit revision/rework. The historical primary effects and original reference case are unchanged.
+
+Review/revision/rework inputs must represent additional overhead beyond the time already reflected in the source estimate, avoiding double-counting ordinary editing. Dashboard defaults use this bounded workflow with two review minutes; this differs from the original reference case and is identified as a selected scenario.
 
 ## Deliberately limited scope
 

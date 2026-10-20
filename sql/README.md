@@ -27,12 +27,14 @@ From the project root, after installing dependencies:
 
 ```bash
 make download
-make run       # builds participants and runs the full SQL layer
+make run       # rebuilds the warehouse and runs the full SQL layer
 make sql       # reruns only SQL after the initial reconstruction
 make notebook  # includes executed SQL examples
 ```
 
-The local database is `data/processed/study.sqlite`. It contains the participant table, three aggregate/configuration tables and two analysis views. Input assumptions and the historical time-effect estimate are imported from the documented Python outputs; SQL calculates the commercial answers independently. Participant records and the database are never committed.
+The local database is `data/processed/study.sqlite`. The [warehouse schema](warehouse/01_schema.sql) defines five dimension tables and two fact tables. [SQL transformations](warehouse/02_transform.sql) load them and expose a participant-grain mart, a compatibility `participants` view and an aggregate KPI mart. The separate analysis layer adds sample-flow, effect-estimate and scenario inputs plus reusable analysis views. Input assumptions and the historical time-effect estimate are imported from the documented Python outputs; SQL calculates the commercial answers independently. Participant records and the database are never committed.
+
+Read the [data model](../docs/DATA_MODEL.md) for table relationships and metric grains. Outcome facts have two rows per participant, while usage facts have one. Aggregate or pivot outcomes before joining usage; otherwise participant counts and usage totals can double. [Integrity queries](warehouse/03_integrity.sql), primary/foreign keys and SQL-to-Python round-trip checks enforce the intended grains. The pipeline rebuilds an atomic snapshot rather than appending records.
 
 ## Reconciliation
 

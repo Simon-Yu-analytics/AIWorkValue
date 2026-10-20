@@ -14,6 +14,19 @@ def main():
         assert row["ci95"][0]<=row["coefficient"]<=row["ci95"][1]
         assert math.isfinite(row["standard_error"]) and 0<=row["p_value"]<=1
     assert [x["n"] for x in r["primary"]]==[346,352]
+    warehouse=json.loads((ROOT/"reports/warehouse-summary.json").read_text())
+    assert warehouse["table_rows"]["dim_participant"]==453
+    assert warehouse["table_rows"]["fact_outcome"]==906
+    assert warehouse["table_rows"]["fact_usage"]==453
+    assert warehouse["foreign_key_violations"]==0
+    assert all(row["violations"]==0 for row in warehouse["integrity_checks"])
+    pipeline=json.loads((ROOT/"reports/pipeline-audit.json").read_text())
+    assert [row["stage"] for row in pipeline["stages"]]==["Extract","Transform","Validate","Load","Analyze"]
+    assert all(row["status"]=="passed" for row in pipeline["stages"])
+    research=json.loads((ROOT/"reports/research-validation.json").read_text())
+    for audit,model in zip(research["primary_model_checks"],r["primary"]):
+        assert audit["n"]==model["n"] and audit["rank"]==audit["design_columns"]
+        assert math.isclose(audit["independent_hc3_se"],model["standard_error"],abs_tol=1e-10)
     sql=json.loads((ROOT/"reports/sql-summaries.json").read_text())
     assert sql["schema_version"]==2 and len(sql["queries"])==10
     assert reconcile_business(sql["queries"],r)["status"]=="passed"
@@ -35,9 +48,11 @@ def main():
     assert all(c.get("execution_count") for c in notebook["cells"] if c["cell_type"]=="code")
     assert len(list((ROOT/"figures").glob("*.png")))==8
     assert (ROOT/"reports/AIWorkValue_Research_Report.pdf").read_bytes().startswith(b"%PDF")
+    assert (ROOT/"dashboard/app.py").is_file()
+    assert (ROOT/"figures/dashboard/business_decision.jpg").read_bytes().startswith(b"\xff\xd8\xff")
     for file in ["reports/Executive_Memo.md","reports/SQL_Analysis.md","sql/README.md","docs/DATA_AND_METHODS.md","docs/ANALYSIS_PLAN.md"]:
         assert (ROOT/file).is_file()
-    print("Validated sample, models, 10 SQL analyses, nine task cases, SQL/Python reconciliation, notebook and research deliverables.")
+    print("Validated warehouse, ETL stages, independent inference, SQL/Python cases, notebook, dashboard and report artifacts.")
 
 
 if __name__=="__main__":main()

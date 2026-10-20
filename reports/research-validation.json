@@ -1,0 +1,205 @@
+{
+  "primary_model_checks": [
+    {
+      "model": "primary_time",
+      "n": 346,
+      "design_columns": 15,
+      "rank": 15,
+      "residual_df": 331,
+      "maximum_leverage": 0.1568682948618427,
+      "independent_hc3_se": 1.1402799360767917,
+      "independent_ci95": [
+        -12.582581204615543,
+        -8.096362345188936
+      ],
+      "status": "passed"
+    },
+    {
+      "model": "primary_quality",
+      "n": 352,
+      "design_columns": 15,
+      "rank": 15,
+      "residual_df": 337,
+      "maximum_leverage": 0.11625208838638387,
+      "independent_hc3_se": 0.11861698365041555,
+      "independent_ci95": [
+        0.46618885582579117,
+        0.9328347795908107
+      ],
+      "status": "passed"
+    }
+  ],
+  "sample_audit": {
+    "sample_flow": [
+      {
+        "stage": "raw_survey_records",
+        "n": 786,
+        "control": 368,
+        "ai_offer": 365
+      },
+      {
+        "stage": "completed_and_not_declined",
+        "n": 523,
+        "control": 273,
+        "ai_offer": 250
+      },
+      {
+        "stage": "unique_first_submission",
+        "n": 505,
+        "control": 263,
+        "ai_offer": 242
+      },
+      {
+        "stage": "documented_first_task_and_duplicate_flags",
+        "n": 499,
+        "control": 260,
+        "ai_offer": 239
+      },
+      {
+        "stage": "author_quality_check",
+        "n": 457,
+        "control": 237,
+        "ai_offer": 220
+      },
+      {
+        "stage": "exclude_prior_graders",
+        "n": 453,
+        "control": 235,
+        "ai_offer": 218
+      }
+    ],
+    "attrition_after_baseline": [
+      {
+        "assignment": 0,
+        "reached_first_task": 234,
+        "finished": 220,
+        "completion_rate": 0.9401709401709402
+      },
+      {
+        "assignment": 1,
+        "reached_first_task": 218,
+        "finished": 195,
+        "completion_rate": 0.8944954128440367
+      }
+    ],
+    "retained_participants": 453,
+    "primary_arm_participants": 359,
+    "valid_quality_pairs": 444,
+    "valid_time_pairs": 437,
+    "paired_rater_rows": 1564,
+    "documented_excluded_ids_count": 6,
+    "grading_choice": "All eligible paired graders; participant-level mean; no data-dependent grader-correlation exclusion.",
+    "primary_sample": "Linear and convex incentive arms; retained available cases, not all randomized participants."
+  },
+  "conditional_effects": [
+    {
+      "outcome": "minutes",
+      "baseline_quantile": 0.25,
+      "baseline_grade": 3.0,
+      "effect": -9.877828210923418,
+      "ci95": [
+        -12.877599119667291,
+        -6.878057302179545
+      ],
+      "n": 341,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    },
+    {
+      "outcome": "minutes",
+      "baseline_quantile": 0.5,
+      "baseline_grade": 4.0,
+      "effect": -10.295206772677517,
+      "ci95": [
+        -12.579627258918158,
+        -8.010786286436876
+      ],
+      "n": 341,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    },
+    {
+      "outcome": "minutes",
+      "baseline_quantile": 0.75,
+      "baseline_grade": 5.0,
+      "effect": -10.712585334431616,
+      "ci95": [
+        -13.417038280978744,
+        -8.008132387884487
+      ],
+      "n": 341,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    },
+    {
+      "outcome": "grade_points",
+      "baseline_quantile": 0.25,
+      "baseline_grade": 3.0,
+      "effect": 0.9412824928338004,
+      "ci95": [
+        0.6356703388716788,
+        1.2468946467959219
+      ],
+      "n": 352,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    },
+    {
+      "outcome": "grade_points",
+      "baseline_quantile": 0.5,
+      "baseline_grade": 4.0,
+      "effect": 0.6926564681736846,
+      "ci95": [
+        0.46189081354983086,
+        0.9234221227975384
+      ],
+      "n": 352,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    },
+    {
+      "outcome": "grade_points",
+      "baseline_quantile": 0.75,
+      "baseline_grade": 5.0,
+      "effect": 0.4440304435135689,
+      "ci95": [
+        0.15751301668374568,
+        0.7305478703433921
+      ],
+      "n": 352,
+      "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+    }
+  ],
+  "interaction_tests": [
+    {
+      "name": "time_baseline_writing_score_interaction",
+      "outcome": "minutes_per_baseline_point",
+      "formula": "time_post ~ assignment * baseline_score_centered + time_pre + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment:baseline_score_centered",
+      "n": 341,
+      "coefficient": -0.417378561754098,
+      "standard_error": 0.8712351439347249,
+      "ci95": [
+        -2.131370587570093,
+        1.296613464061897
+      ],
+      "p_value": 0.6322153064250448,
+      "covariance": "HC3",
+      "r_squared": 0.42044933188213507,
+      "exploratory_holm_p_value": 0.6322153064250448
+    },
+    {
+      "name": "quality_baseline_writing_score_interaction",
+      "outcome": "grade_points_per_baseline_point",
+      "formula": "grade_post ~ assignment * baseline_score_centered + C(occupation) * C(a_first) + C(incentive_arm)",
+      "term": "assignment:baseline_score_centered",
+      "n": 352,
+      "coefficient": -0.24862602466011574,
+      "standard_error": 0.09441662868570326,
+      "ci95": [
+        -0.43434819595180496,
+        -0.06290385336842652
+      ],
+      "p_value": 0.008847147088072733,
+      "covariance": "HC3",
+      "r_squared": 0.28798352584341824,
+      "exploratory_holm_p_value": 0.017694294176145466
+    }
+  ],
+  "inference_boundary": "Available-case assignment contrasts. No proof that attrition, outcome measurement error or external-validity limitations are removed."
+}

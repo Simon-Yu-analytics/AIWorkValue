@@ -15,7 +15,8 @@ def prepare_layer(connection, results, sql_dir):
                        (-time["coefficient"], -time["ci95"][1], -time["ci95"][0]))
     columns = ("employees", "rollout_coverage", "eligible_tasks_per_employee_month",
                "transferability", "additional_review_minutes", "loaded_hourly_value",
-               "assumed_seat_cost_month", "fixed_operating_cost_month", "setup_cost")
+               "assumed_seat_cost_month", "fixed_operating_cost_month", "setup_cost",
+               "baseline_task_minutes", "revision_minutes", "rework_probability", "rework_minutes")
     assumptions = [(name, "named", results["business"][name]["assumptions"])
                    for name in ("conservative", "base", "upside")]
     for i, point in enumerate(results["business"]["sensitivity"]):
@@ -24,7 +25,7 @@ def prepare_layer(connection, results, sql_dir):
                         additional_review_minutes=point["review_minutes"])
         assumptions.append((f"grid_{i:02d}", "grid", scenario))
     connection.executemany(
-        "INSERT INTO business_assumptions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO business_assumptions VALUES (" + ",".join("?" for _ in range(len(columns)+2)) + ")",
         [(name, kind, *(a[c] for c in columns)) for name, kind, a in assumptions])
 
 

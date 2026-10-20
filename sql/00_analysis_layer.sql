@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS time_effect (
     minutes_saved_low REAL NOT NULL,
     minutes_saved_high REAL NOT NULL
 );
-CREATE TABLE IF NOT EXISTS business_assumptions (
+DROP VIEW IF EXISTS v_business_value;
+DROP TABLE IF EXISTS business_assumptions;
+CREATE TABLE business_assumptions (
     scenario TEXT PRIMARY KEY,
     scenario_kind TEXT NOT NULL CHECK (scenario_kind IN ('named', 'grid')),
     employees REAL NOT NULL CHECK (employees >= 0),
@@ -21,7 +23,11 @@ CREATE TABLE IF NOT EXISTS business_assumptions (
     loaded_hourly_value REAL NOT NULL CHECK (loaded_hourly_value >= 0),
     assumed_seat_cost_month REAL NOT NULL CHECK (assumed_seat_cost_month >= 0),
     fixed_operating_cost_month REAL NOT NULL CHECK (fixed_operating_cost_month >= 0),
-    setup_cost REAL NOT NULL CHECK (setup_cost >= 0)
+    setup_cost REAL NOT NULL CHECK (setup_cost >= 0),
+    baseline_task_minutes REAL NOT NULL CHECK (baseline_task_minutes > 0),
+    revision_minutes REAL NOT NULL CHECK (revision_minutes >= 0),
+    rework_probability REAL NOT NULL CHECK (rework_probability BETWEEN 0 AND 1),
+    rework_minutes REAL NOT NULL CHECK (rework_minutes >= 0)
 );
 
 DROP VIEW IF EXISTS v_outcome_pairs;
@@ -42,9 +48,12 @@ CREATE VIEW v_business_value AS
 WITH task_value AS (
     SELECT a.*, e.minutes_saved, e.minutes_saved_low, e.minutes_saved_high,
            employees * rollout_coverage AS offered_seats,
-           e.minutes_saved * transferability - additional_review_minutes AS net_minutes,
-           e.minutes_saved_low * transferability - additional_review_minutes AS net_minutes_low,
-           e.minutes_saved_high * transferability - additional_review_minutes AS net_minutes_high
+           MIN(e.minutes_saved * transferability, baseline_task_minutes)
+               - additional_review_minutes - revision_minutes - rework_probability*rework_minutes AS net_minutes,
+           MIN(e.minutes_saved_low * transferability, baseline_task_minutes)
+               - additional_review_minutes - revision_minutes - rework_probability*rework_minutes AS net_minutes_low,
+           MIN(e.minutes_saved_high * transferability, baseline_task_minutes)
+               - additional_review_minutes - revision_minutes - rework_probability*rework_minutes AS net_minutes_high
     FROM business_assumptions AS a
     CROSS JOIN time_effect AS e
 ), capacity AS (

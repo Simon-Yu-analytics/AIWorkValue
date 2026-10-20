@@ -8,7 +8,11 @@
     "loaded_hourly_value": 35,
     "assumed_seat_cost_month": 25,
     "fixed_operating_cost_month": 500,
-    "setup_cost": 3000
+    "setup_cost": 3000,
+    "baseline_task_minutes": 10,
+    "revision_minutes": 0.5,
+    "rework_probability": 0.2,
+    "rework_minutes": 3
   },
   "frequencies": [
     {"label": "Weekly only", "tasks_per_employee_month": 4},
@@ -18,5 +22,5 @@
   "extra_review_minutes": [1, 3, 5],
   "frequency_note": "Four weeks and twenty working days are simplifying scenario conventions, not measured calendar averages. Higher frequencies represent a broader set of comparable status-writing tasks.",
   "cost_allocation_note": "The entire offered-seat and support cost is charged to this workflow. Other productive uses of the same subscription are not valued.",
-  "transfer_note": "The historical effect is not measured on this email task. If current drafting time is shorter than the assumed saving, the extrapolation is unsuitable; actual end-to-end time must be measured."
+  "transfer_note": "The historical effect is not measured on this email task. Transferred savings are capped at the assumed 10-minute baseline. Revision adds 0.5 minutes and expected rework adds 0.2 x 3 = 0.6 minutes beyond checking. All task inputs are hypothetical; actual end-to-end time must be measured."
 }

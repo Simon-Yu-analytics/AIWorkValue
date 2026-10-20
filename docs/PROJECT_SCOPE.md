@@ -10,6 +10,8 @@ AIWorkValue is a personal business analytics project using public research data.
 4. Check whether time results change when using a different time measure or comparing changes from baseline.
 5. Build a hypothetical cost example and investigate how task frequency and extra checking affect it.
 6. Apply that calculation to a [weekly status-email example](../reports/extensions/Weekly_Status_Email.md), comparing nine frequency/checking combinations in SQL and Python.
+7. Load a five-dimension/two-fact [SQLite star schema](DATA_MODEL.md) with SQL transformations, grain checks and repeatable ETL; fit models from its participant mart.
+8. Inspect the public aggregate evidence and bounded workflow model through the [Streamlit dashboard](../dashboard/README.md).
 
 For a first review, read the main README, the notebook, SQL files `02`, `03`, `04`, `07` and `08`, and the [business assumptions](BUSINESS_ASSUMPTIONS.md). These cover the main argument without requiring every optional model.
 
@@ -23,7 +25,7 @@ The detailed [data and methods](DATA_AND_METHODS.md), [research card](RESEARCH_C
 
 Noy and Zhang designed and conducted the original experiment and collected the data. This repository contributes a Python reconstruction, SQL analysis, estimator comparisons, visualizations and a hypothetical business extension. It does not report a newly collected experiment, a client project, an actual deployment or measured company savings.
 
-AI tools assisted implementation and draft preparation. Sources, assumptions and executable calculations are documented so readers can inspect and reproduce the work. Personal application statements should accurately describe the author's contribution and follow the receiving institution's disclosure requirements.
+AI tools assisted implementation and draft preparation. Sources, assumptions and executable calculations are documented so readers can inspect and reproduce the work. The warehouse and BI app are analytical prototypes, not a cloud deployment or client engagement. Personal application statements should accurately describe the author's contribution and follow the receiving institution's disclosure requirements.
 
 ## Completed extension and remaining evidence
 

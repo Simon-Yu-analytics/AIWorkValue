@@ -183,7 +183,8 @@
         ],
         "p_value": 0.6322153064250448,
         "covariance": "HC3",
-        "r_squared": 0.42044933188213507
+        "r_squared": 0.42044933188213507,
+        "exploratory_holm_p_value": 0.6322153064250448
       },
       {
         "name": "quality_baseline_writing_score_interaction",
@@ -199,7 +200,82 @@
         ],
         "p_value": 0.008847147088072733,
         "covariance": "HC3",
-        "r_squared": 0.28798352584341824
+        "r_squared": 0.28798352584341824,
+        "exploratory_holm_p_value": 0.017694294176145466
+      }
+    ],
+    "conditional_effects": [
+      {
+        "outcome": "minutes",
+        "baseline_quantile": 0.25,
+        "baseline_grade": 3.0,
+        "effect": -9.877828210923418,
+        "ci95": [
+          -12.877599119667291,
+          -6.878057302179545
+        ],
+        "n": 341,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+      },
+      {
+        "outcome": "minutes",
+        "baseline_quantile": 0.5,
+        "baseline_grade": 4.0,
+        "effect": -10.295206772677517,
+        "ci95": [
+          -12.579627258918158,
+          -8.010786286436876
+        ],
+        "n": 341,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+      },
+      {
+        "outcome": "minutes",
+        "baseline_quantile": 0.75,
+        "baseline_grade": 5.0,
+        "effect": -10.712585334431616,
+        "ci95": [
+          -13.417038280978744,
+          -8.008132387884487
+        ],
+        "n": 341,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+      },
+      {
+        "outcome": "grade_points",
+        "baseline_quantile": 0.25,
+        "baseline_grade": 3.0,
+        "effect": 0.9412824928338004,
+        "ci95": [
+          0.6356703388716788,
+          1.2468946467959219
+        ],
+        "n": 352,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+      },
+      {
+        "outcome": "grade_points",
+        "baseline_quantile": 0.5,
+        "baseline_grade": 4.0,
+        "effect": 0.6926564681736846,
+        "ci95": [
+          0.46189081354983086,
+          0.9234221227975384
+        ],
+        "n": 352,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
+      },
+      {
+        "outcome": "grade_points",
+        "baseline_quantile": 0.75,
+        "baseline_grade": 5.0,
+        "effect": 0.4440304435135689,
+        "ci95": [
+          0.15751301668374568,
+          0.7305478703433921
+        ],
+        "n": 352,
+        "status": "Exploratory pointwise contrast, not simultaneous subgroup inference."
       }
     ],
     "groups": [
@@ -414,10 +490,22 @@
         "loaded_hourly_value": 35,
         "assumed_seat_cost_month": 25,
         "fixed_operating_cost_month": 500,
-        "setup_cost": 3000
+        "setup_cost": 3000,
+        "baseline_task_minutes": 30,
+        "revision_minutes": 0,
+        "rework_probability": 0,
+        "rework_minutes": 0
       },
       "study_assignment_minutes_saved": 10.339471774902234,
       "offered_employees": 100.0,
+      "uncapped_transferred_minutes": 2.5848679437255586,
+      "gross_minutes_saved_per_task": 2.5848679437255586,
+      "baseline_cap_applied": false,
+      "expected_rework_minutes": 0,
+      "ai_workflow_minutes_per_task": 30.41513205627444,
+      "operating_break_even_tasks_per_employee_month": null,
+      "max_review_minutes_at_operating_break_even": 0.013439372296986996,
+      "per_offered_employee_capacity_value": -4.843207323201817,
       "net_minutes_per_eligible_task": -0.4151320562744414,
       "capacity_hours_month": -13.837735209148045,
       "capacity_value_month": -484.32073232018155,
@@ -437,10 +525,22 @@
         "loaded_hourly_value": 35,
         "assumed_seat_cost_month": 25,
         "fixed_operating_cost_month": 500,
-        "setup_cost": 3000
+        "setup_cost": 3000,
+        "baseline_task_minutes": 30,
+        "revision_minutes": 0,
+        "rework_probability": 0,
+        "rework_minutes": 0
       },
       "study_assignment_minutes_saved": 10.339471774902234,
       "offered_employees": 100.0,
+      "uncapped_transferred_minutes": 5.169735887451117,
+      "gross_minutes_saved_per_task": 5.169735887451117,
+      "baseline_cap_applied": false,
+      "expected_rework_minutes": 0,
+      "ai_workflow_minutes_per_task": 26.830264112548882,
+      "operating_break_even_tasks_per_employee_month": 16.224875905962858,
+      "max_review_minutes_at_operating_break_even": 2.5983073160225456,
+      "per_offered_employee_capacity_value": 36.98025202026304,
       "net_minutes_per_eligible_task": 3.1697358874511172,
       "capacity_hours_month": 105.65786291503724,
       "capacity_value_month": 3698.0252020263033,
@@ -460,10 +560,22 @@
         "loaded_hourly_value": 35,
         "assumed_seat_cost_month": 25,
         "fixed_operating_cost_month": 500,
-        "setup_cost": 3000
+        "setup_cost": 3000,
+        "baseline_task_minutes": 30,
+        "revision_minutes": 0,
+        "rework_probability": 0,
+        "rework_minutes": 0
       },
       "study_assignment_minutes_saved": 10.339471774902234,
       "offered_employees": 100.0,
+      "uncapped_transferred_minutes": 7.754603831176675,
+      "gross_minutes_saved_per_task": 7.754603831176675,
+      "baseline_cap_applied": false,
+      "expected_rework_minutes": 0,
+      "ai_workflow_minutes_per_task": 23.245396168823326,
+      "operating_break_even_tasks_per_employee_month": 7.613854596652547,
+      "max_review_minutes_at_operating_break_even": 5.183175259748104,
+      "per_offered_employee_capacity_value": 78.80371136372788,
       "net_minutes_per_eligible_task": 6.754603831176675,
       "capacity_hours_month": 225.1534610392225,
       "capacity_value_month": 7880.371136372787,
@@ -488,10 +600,22 @@
           "loaded_hourly_value": 35,
           "assumed_seat_cost_month": 25,
           "fixed_operating_cost_month": 500,
-          "setup_cost": 3000
+          "setup_cost": 3000,
+          "baseline_task_minutes": 30,
+          "revision_minutes": 0,
+          "rework_probability": 0,
+          "rework_minutes": 0
         },
         "study_assignment_minutes_saved": 8.096362345188929,
         "offered_employees": 100.0,
+        "uncapped_transferred_minutes": 4.0481811725944645,
+        "gross_minutes_saved_per_task": 4.0481811725944645,
+        "baseline_cap_applied": false,
+        "expected_rework_minutes": 0,
+        "ai_workflow_minutes_per_task": 27.951818827405535,
+        "operating_break_even_tasks_per_employee_month": 25.109385886711387,
+        "max_review_minutes_at_operating_break_even": 1.476752601165893,
+        "per_offered_employee_capacity_value": 23.895447013602087,
         "net_minutes_per_eligible_task": 2.0481811725944645,
         "capacity_hours_month": 68.27270575314881,
         "capacity_value_month": 2389.5447013602084,
@@ -511,10 +635,22 @@
           "loaded_hourly_value": 35,
           "assumed_seat_cost_month": 25,
           "fixed_operating_cost_month": 500,
-          "setup_cost": 3000
+          "setup_cost": 3000,
+          "baseline_task_minutes": 30,
+          "revision_minutes": 0,
+          "rework_probability": 0,
+          "rework_minutes": 0
         },
         "study_assignment_minutes_saved": 12.58258120461554,
         "offered_employees": 100.0,
+        "uncapped_transferred_minutes": 6.29129060230777,
+        "gross_minutes_saved_per_task": 6.29129060230777,
+        "baseline_cap_applied": false,
+        "expected_rework_minutes": 0,
+        "ai_workflow_minutes_per_task": 25.708709397692232,
+        "operating_break_even_tasks_per_employee_month": 11.984406602739552,
+        "max_review_minutes_at_operating_break_even": 3.7198620308791983,
+        "per_offered_employee_capacity_value": 50.065057026923974,
         "net_minutes_per_eligible_task": 4.29129060230777,
         "capacity_hours_month": 143.04302007692567,
         "capacity_value_month": 5006.505702692399,

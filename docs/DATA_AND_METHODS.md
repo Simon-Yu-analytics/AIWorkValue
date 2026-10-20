@@ -63,6 +63,14 @@ Original researchers: experiment, data collection, task design and original find
 
 The weekly status-email example varies eligible task frequency (4, 8, 20 per month) and incremental checking time (1, 3, 5 minutes), holding the other configured assumptions fixed. Its SQL calculation is checked against Python. It uses the historical estimate as an input and does not estimate a new email-writing effect. Full seat and support costs are allocated to this workflow; other paid-tool uses are omitted. Four weeks is a simplifying scenario convention, and actual task duration could make the historical saving inapplicable. The extension is exploratory and was added after the main results were known.
 
+The BI upgrade adds an assumed 10-minute email baseline, caps gross transferred saving at that duration, and deducts 0.5 revision minutes plus expected rework of 20% × 3 minutes. These inputs are hypothetical and incremental beyond effort reflected in the source estimate. SQL and Python use the same cap and cost definitions. The original reference case uses a nonbinding 30-minute cap and zero additional revision/rework so its original value remains comparable. Changes in the revised email values are model-scope changes, not altered experimental outcomes.
+
+## Warehouse and model-input validation
+
+The reconstructed source frame is validated before dimensional loading. SQL creates five dimensions, two facts and a one-participant mart. Round-trip checks require that the mart exactly preserves the cleaned participant variables and missingness. Primary models then read this SQL mart; source-data matrix calculations independently verify the primary HC3 standard errors and t intervals. Foreign-key, grain and JOIN-count checks must pass. Time values above 180 minutes are flagged, not automatically excluded. The warehouse contains source-level participant data and stays local; only aggregate KPIs and audits are committed.
+
+Continuous baseline-score interactions now also include exploratory Holm-adjusted p-values and conditional effects at baseline quartiles. Those intervals are pointwise, not simultaneous bands. Noisy baseline scores, regression-to-the-mean concerns and the bounded quality scale limit interpretation; no employee-ability or allocation claim is made.
+
 ## Differences from the initial analysis plan
 
 The plan mentions willingness to pay, but no willingness-to-pay analysis is included in the final project. Those selected-user hypothetical responses would not provide a company purchase price or a market demand curve, so that topic is left outside the final scope. The paired-grader fixed-effect sensitivity model and the expanded SQL/task examples were added as supplementary checks after the initial plan; they are not presented as newly preregistered analyses. The two primary outcomes and their primary estimators remain as documented.

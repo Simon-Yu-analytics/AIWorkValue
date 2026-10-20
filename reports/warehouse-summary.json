@@ -1,0 +1,326 @@
+{
+  "validation": {
+    "status": "passed",
+    "rows": 453,
+    "missing_outcomes": {
+      "time_pre": 14,
+      "time_post": 6,
+      "page_pre": 96,
+      "page_post": 96,
+      "grade_pre": 9,
+      "grade_post": 9
+    },
+    "time_above_180_minutes": {
+      "time_pre": 0,
+      "time_post": 0,
+      "page_pre": 0,
+      "page_post": 0
+    },
+    "outlier_policy": "Flag for inspection; do not trim or impute. Threshold is a QC rule, not an exclusion criterion."
+  },
+  "table_rows": {
+    "dim_participant": 453,
+    "dim_assignment": 2,
+    "dim_occupation": 6,
+    "dim_incentive": 3,
+    "dim_period": 2,
+    "fact_outcome": 906,
+    "fact_usage": 453
+  },
+  "foreign_key_violations": 0,
+  "integrity_checks": [
+    {
+      "check_name": "dimension_join_row_expansion",
+      "violations": 0
+    },
+    {
+      "check_name": "participant_mart_grain",
+      "violations": 0
+    },
+    {
+      "check_name": "missing_or_extra_measurement_period",
+      "violations": 0
+    },
+    {
+      "check_name": "assignment_changes_between_periods",
+      "violations": 0
+    },
+    {
+      "check_name": "usage_join_count",
+      "violations": 0
+    },
+    {
+      "check_name": "outcome_grain_duplicates",
+      "violations": 0
+    }
+  ],
+  "kpis": [
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "HR professional",
+      "period_name": "Baseline",
+      "participants": 11,
+      "time_observations": 10,
+      "mean_minutes": 29.1,
+      "quality_observations": 10,
+      "mean_quality": 3.5
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "HR professional",
+      "period_name": "Post",
+      "participants": 11,
+      "time_observations": 11,
+      "mean_minutes": 24.545454545454547,
+      "quality_observations": 10,
+      "mean_quality": 3.5666666666666664
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "consultant",
+      "period_name": "Baseline",
+      "participants": 27,
+      "time_observations": 26,
+      "mean_minutes": 34.65384615384615,
+      "quality_observations": 27,
+      "mean_quality": 3.8765432098765435
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "consultant",
+      "period_name": "Post",
+      "participants": 27,
+      "time_observations": 27,
+      "mean_minutes": 31.77777777777778,
+      "quality_observations": 27,
+      "mean_quality": 3.441358024691358
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "data analyst",
+      "period_name": "Baseline",
+      "participants": 23,
+      "time_observations": 23,
+      "mean_minutes": 27.565217391304348,
+      "quality_observations": 23,
+      "mean_quality": 3.648550724637681
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "data analyst",
+      "period_name": "Post",
+      "participants": 23,
+      "time_observations": 23,
+      "mean_minutes": 25.26086956521739,
+      "quality_observations": 23,
+      "mean_quality": 3.489130434782609
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "grant writer",
+      "period_name": "Baseline",
+      "participants": 31,
+      "time_observations": 31,
+      "mean_minutes": 29.677419354838708,
+      "quality_observations": 31,
+      "mean_quality": 4.2344086021505385
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "grant writer",
+      "period_name": "Post",
+      "participants": 31,
+      "time_observations": 31,
+      "mean_minutes": 24.725806451612904,
+      "quality_observations": 31,
+      "mean_quality": 4.068817204301075
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "manager",
+      "period_name": "Baseline",
+      "participants": 79,
+      "time_observations": 76,
+      "mean_minutes": 26.99342105263158,
+      "quality_observations": 79,
+      "mean_quality": 4.015822784810126
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "manager",
+      "period_name": "Post",
+      "participants": 79,
+      "time_observations": 79,
+      "mean_minutes": 26.20886075949367,
+      "quality_observations": 79,
+      "mean_quality": 3.967299578059072
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "marketer",
+      "period_name": "Baseline",
+      "participants": 16,
+      "time_observations": 14,
+      "mean_minutes": 29.785714285714285,
+      "quality_observations": 16,
+      "mean_quality": 4.140625
+    },
+    {
+      "assignment_label": "Control",
+      "assignment": 0,
+      "occupation": "marketer",
+      "period_name": "Post",
+      "participants": 16,
+      "time_observations": 16,
+      "mean_minutes": 31.9375,
+      "quality_observations": 16,
+      "mean_quality": 3.9947916666666665
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "HR professional",
+      "period_name": "Baseline",
+      "participants": 15,
+      "time_observations": 15,
+      "mean_minutes": 30.333333333333332,
+      "quality_observations": 12,
+      "mean_quality": 3.9583333333333335
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "HR professional",
+      "period_name": "Post",
+      "participants": 15,
+      "time_observations": 15,
+      "mean_minutes": 12.6,
+      "quality_observations": 12,
+      "mean_quality": 4.208333333333333
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "consultant",
+      "period_name": "Baseline",
+      "participants": 19,
+      "time_observations": 18,
+      "mean_minutes": 27.333333333333332,
+      "quality_observations": 17,
+      "mean_quality": 4.029411764705882
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "consultant",
+      "period_name": "Post",
+      "participants": 19,
+      "time_observations": 18,
+      "mean_minutes": 19.11111111111111,
+      "quality_observations": 17,
+      "mean_quality": 4.549019607843137
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "data analyst",
+      "period_name": "Baseline",
+      "participants": 19,
+      "time_observations": 17,
+      "mean_minutes": 29.705882352941178,
+      "quality_observations": 18,
+      "mean_quality": 3.796296296296296
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "data analyst",
+      "period_name": "Post",
+      "participants": 19,
+      "time_observations": 18,
+      "mean_minutes": 20.0,
+      "quality_observations": 18,
+      "mean_quality": 4.1157407407407405
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "grant writer",
+      "period_name": "Baseline",
+      "participants": 35,
+      "time_observations": 35,
+      "mean_minutes": 39.0,
+      "quality_observations": 35,
+      "mean_quality": 4.161904761904761
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "grant writer",
+      "period_name": "Post",
+      "participants": 35,
+      "time_observations": 35,
+      "mean_minutes": 20.4,
+      "quality_observations": 35,
+      "mean_quality": 4.285714285714286
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "manager",
+      "period_name": "Baseline",
+      "participants": 67,
+      "time_observations": 66,
+      "mean_minutes": 26.060606060606062,
+      "quality_observations": 67,
+      "mean_quality": 3.8992537313432836
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "manager",
+      "period_name": "Post",
+      "participants": 67,
+      "time_observations": 67,
+      "mean_minutes": 14.388059701492537,
+      "quality_observations": 67,
+      "mean_quality": 4.853233830845771
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "marketer",
+      "period_name": "Baseline",
+      "participants": 17,
+      "time_observations": 16,
+      "mean_minutes": 27.5,
+      "quality_observations": 17,
+      "mean_quality": 3.975490196078431
+    },
+    {
+      "assignment_label": "AI offer",
+      "assignment": 1,
+      "occupation": "marketer",
+      "period_name": "Post",
+      "participants": 17,
+      "time_observations": 16,
+      "mean_minutes": 18.125,
+      "quality_observations": 17,
+      "mean_quality": 4.284313725490196
+    }
+  ],
+  "load_strategy": "Validated atomic full snapshot; deterministic natural-key ordering; no appending on rerun.",
+  "outcome_grain": "One retained participant x baseline/post period",
+  "usage_grain": "One retained participant"
+}

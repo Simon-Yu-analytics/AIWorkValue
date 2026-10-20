@@ -1,4 +1,4 @@
-"""Build the research figures and eleven-page analysis with a task extension."""
+"""Build the research figures and fourteen-page research/BI report."""
 from pathlib import Path
 import os,json
 from xml.sax.saxutils import escape
@@ -126,7 +126,7 @@ def pdf(r):
       ["Commercial base scenario",f"${b['net_capacity_value_month']:,.0f}/month net capacity value under assumptions.","Do not present this as measured company savings."]],[110,210,160])
     p("What this project contributes","SubA")
     p("A reconstructed sample audit, independent Python estimators, counterbalancing checks, sensitivity analyses, exploratory baseline-score differences, SQL summaries and a transparent translation from experimental evidence to a company budget boundary.")
-    p("Source experiment: Shakked Noy and Whitney Zhang, Science (2023). Analysis prepared 19 October 2026. This project did not recruit participants or conduct the original experiment.","SmallA")
+    p("Source experiment: Shakked Noy and Whitney Zhang, Science (2023). The BI extension preserves the original primary estimates. This project did not recruit participants or conduct the original experiment.","SmallA")
 
     page(2,"Understand the experiment and the retained sample","Study design")
     chart("01_sample_flow.png",220)
@@ -170,6 +170,7 @@ def pdf(r):
     p("Business interpretation","SubA")
     p("Provide onboarding broadly and investigate where writing assistance improves an existing workflow. Use task needs and source-verification requirements to scope a pilot. A single baseline writing exercise is not a general employee-ability measure and should not become a hiring or workforce-allocation score.")
     p("Group cutoffs use the pooled pre-treatment median. These extensions are exploratory, with small subgroups and no claim of an independent confirmatory subgroup experiment.","SmallA")
+    p(f"The two exploratory interaction tests have Holm-adjusted p-values {ti['exploratory_holm_p_value']:.3f} (time) and {qi['exploratory_holm_p_value']:.3f} (quality). A single noisy baseline and the 7-point ceiling remain limitations; pointwise baseline-score contrasts are shown on page 13.","SmallA")
 
     page(7,"Adoption persists, but external validity remains limited","Behavior and transfer")
     chart("06_adoption.png",240)
@@ -184,10 +185,11 @@ def pdf(r):
       ["Eligible writing tasks","20 per offered employee per month","Company scenario"],
       ["Transferable historical effect","50% of the study assignment estimate","External-validity assumption"],
       ["Additional verification","2 minutes per eligible task","Company scenario"],
+      ["Baseline / revision / rework","30 minutes / 0 / 0 in this reference case","Illustrative reference inputs"],
       ["Employee time value","$35 per hour","Capacity valuation assumption"],
       ["Assumed license / fixed monthly cost","$25 per offered seat / $500","Illustrative costs, not market quotes"],
       ["One-time setup","$3,000","Company scenario"]],[140,200,140])
-    p("Net minutes per task = historical assignment minutes saved x transferability - additional verification time. Capacity hours = offered employees x eligible tasks x net minutes / 60. Net capacity value = hours x hourly value - seat costs - fixed operating cost.")
+    p("Gross saved minutes = min(historical assignment effect x transferability, baseline task duration). Net saved minutes subtract extra review, revision and expected rework (probability x rework duration). Capacity hours = offered seats x eligible tasks x net minutes / 60. Net capacity value subtracts recurring seat and support costs.")
     p(f"Base output: {b['capacity_hours_month']:.1f} hours/month of capacity, ${b['capacity_value_month']:,.0f} gross time value, ${b['recurring_cost_month']:,.0f} recurring cost and ${b['net_capacity_value_month']:,.0f} net capacity value. Simple capacity-value payback is {b['capacity_value_payback_months']:.1f} months under these assumptions.")
     p("The assignment effect already includes the source experiment's take-up pattern. Multiplying by that take-up rate again would double-discount the same mechanism. Offered seats incur cost even if some people do not use them.","SmallA")
 
@@ -196,7 +198,7 @@ def pdf(r):
     p(f"The assumed operating break-even seat cost is ${b['operating_break_even_seat_cost']:.2f}/month, before recovering setup cost. It is a budget ceiling under a scenario, not an observed willingness to pay or recommended market price.")
     low=unc["lower"]["net_capacity_value_month"];high=unc["upper"]["net_capacity_value_month"]
     p(f"Holding all commercial assumptions fixed and propagating only the statistical time-effect interval gives monthly net capacity value from ${low:,.0f} to ${high:,.0f}. This range crosses zero. It is not a complete confidence interval for company profit because transferability and cost assumptions have further unmeasured uncertainty.")
-    threshold=saved*.5-3000*60/(100*20*35)
+    threshold=b['max_review_minutes_at_operating_break_even']
     p(f"At the base costs and task volume, additional verification above about {threshold:.2f} minutes per task removes the positive operating case. This is a concrete quantity for a pilot to measure.")
     p("Conservative, base and upside results are saved separately in reports/results.json. Released employee capacity becomes a cash saving only if a specific budget expense actually falls; that has not been measured.","SmallA")
 
@@ -221,11 +223,42 @@ def pdf(r):
               for tasks,review in [(frequencies[0],reviews[0]),(frequencies[-1],reviews[0]),(frequencies[-1],reviews[len(reviews)//2])]]
     page(11,"Would a weekly status email cover the tool cost?","Task-specific sensitivity exercise")
     p(f"This hypothetical extension varies task frequency and extra checking time for internal project-status writing. Other configured costs and the assumed {extension['config']['base_assumptions']['transferability']:.0%} transfer of the historical effect remain fixed. No new email experiment or company data were collected.")
+    assumptions=extension['config']['base_assumptions']
+    p(f"Baseline task duration is assumed to be {assumptions['baseline_task_minutes']:g} minutes; transferred savings are capped at this duration. Each task also adds {assumptions['revision_minutes']:g} revision minutes and expected rework of {assumptions['rework_probability']:.0%} x {assumptions['rework_minutes']:g} minutes, beyond the selected checking time.","SmallA")
     chart("extensions/weekly_status_email.png",210)
     table([["Tasks/person/month", "Extra checking min/task", "Capacity hours/month", "Net capacity value/month"]]+
           [[f"{row['tasks_per_employee_month']:g}",f"{row['review_minutes']:g}",f"{row['capacity_hours']:.1f}",f"${row['net_capacity_value']:,.0f}"] for row in selected],[105,115,120,140])
     p("Fewer eligible tasks leave fewer opportunities to recover recurring costs. Extra checking reduces the time gained from each task. Positive time value can therefore coexist with negative net capacity value. The full nine-case SQL/Python calculation is saved with an editable configuration and narrative in the repository.")
     p("All seat/support costs are charged to this workflow; other uses of a shared subscription are not valued. Four weeks is a simplifying monthly convention. The historical saving was not measured on emails: actual task time could be too short to support the assumed saving. Measure full time to accepted output and task frequency before drawing a purchase conclusion.","SmallA")
+
+    warehouse=json.loads((ROOT/'reports/warehouse-summary.json').read_text())
+    page(12,"Model the data at the correct grain","Dimensional warehouse")
+    p("The local SQLite star model contains five dimensions and two fact tables. Source IDs and participant-level warehouse records are not published. SQL performs dimension loading, wide-to-long outcome transformation, mart pivoting and KPI aggregation.")
+    table([["Table", "Grain", "Rows"]]+[[name,
+          "Participant x baseline/post" if name=='fact_outcome' else "One participant" if name in ('dim_participant','fact_usage') else "One unique dimension value",count]
+          for name,count in warehouse['table_rows'].items()],[145,230,105])
+    p("The outcome fact has a composite participant/period primary key. Dimension natural keys are unique and foreign keys are checked. A participant mart pivots baseline/post measurements to one row before joining usage, preventing an unqualified fact-to-fact join from multiplying measures.")
+    table([["Integrity check", "Violations"]]+[[row['check_name'],row['violations']] for row in warehouse['integrity_checks']],[360,120])
+    p("A validated snapshot replaces the prior database atomically. Repeated runs rebuild rather than append. Tests cover duplicate natural keys, fact grain, foreign-key failures and preservation of the prior snapshot on invalid reload. Full schema and architecture diagrams are in the repository.","SmallA")
+
+    validation=json.loads((ROOT/'reports/research-validation.json').read_text())
+    page(13,"Verify computation and qualify subgroup patterns","Research validation")
+    p("An independent NumPy matrix calculation reconstructs the primary coefficients, HC3 covariance and t-based intervals. Both design matrices have full column rank. No outcome values were changed or trimmed to improve the original estimates.")
+    table([["Model", "N", "Independent HC3 SE", "Status"]]+[[x['model'],x['n'],f"{x['independent_hc3_se']:.6f}",x['status']] for x in validation['primary_model_checks']],[160,55,165,100])
+    p("Quality effects at baseline-score quartiles","SubA")
+    rows=[x for x in r['heterogeneity']['conditional_effects'] if x['outcome']=='grade_points']
+    table([["Baseline quantile", "Writing score", "Conditional effect", "Pointwise 95% interval"]]+[[f"{x['baseline_quantile']:.0%}",f"{x['baseline_grade']:.2f}",f"{x['effect']:.3f}",f"{x['ci95'][0]:.3f} to {x['ci95'][1]:.3f}"] for x in rows],[105,95,125,155])
+    p("These are linear contrasts from the continuous interaction model, not separately randomized subgroup experiments or simultaneous confidence bands. A single baseline task is noisy, and the bounded rating scale can create ceiling effects. The pattern does not establish general employee ability or a workforce-allocation rule.")
+    p("Three levels of interpretation","SubA")
+    p("Statistical evidence concerns the retained historical assignment contrast. Practical productivity concerns minutes and writing points on particular tasks. Commercial value additionally depends on usable task frequency, duration, checking/rework and cost. None establishes realized company profit.")
+    p("The primary comparison does not select actual AI users or control for their post-assignment usage. Missing outcomes remain missing, and time outliers are flagged rather than automatically trimmed. Attrition and source exclusions still limit a full-sample causal interpretation.","SmallA")
+
+    page(14,"Explore the evidence and decision interactively","Business intelligence dashboard")
+    p("Streamlit provides Experiment Overview, Productivity Analysis and Business Decision views. The app uses committed aggregate outputs only. Occupation filters affect descriptive comparisons; the full-sample primary coefficients are not silently refitted.")
+    chart('dashboard/business_decision.jpg',300)
+    p("Change task duration, frequency, review, revision, rework probability/time and costs. The baseline cap prevents savings exceeding task duration; the scenario can remain negative. A frequency/review heatmap, interval propagation and break-even metrics update with the controls.")
+    p("The screenshot uses a 10-minute task, 2 review minutes, 0.5 revision minutes and 0.6 expected rework minutes. Its value differs from the reference case on page 8 because these workflow assumptions differ, not because the historical estimate changed.","SmallA")
+    p("Run make dashboard from the project root. GitHub contains the runnable app and actual preview captures; it does not host this Python server. No public hosted deployment or client use is claimed. Automated app tests exercise all three views and check that duration/rework changes update the calculation.","SmallA")
     def footer(c,doc):
         c.setStrokeColor(colors.HexColor("#DDE5E8"));c.line(52,40,543,40);c.setFont("Helvetica",8);c.setFillColor(colors.HexColor(GRAY))
         c.drawString(52,27,"AIWORKVALUE  |  Independent historical reanalysis + hypothetical commercial extension")

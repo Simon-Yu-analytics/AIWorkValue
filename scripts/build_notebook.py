@@ -24,6 +24,17 @@ r = json.loads((ROOT / "reports/results.json").read_text())
 for row in audit["sample_flow"]: print(row)
 print("Primary incentive arms:", int(d.primary_arm.sum()))
 ''')
+    md("### Warehouse grain and the statistical input\n\nThe warehouse contains all retained participants, including the fixed-time arm. Outcome facts have one row per participant and measurement period. The participant mart pivots those facts before joining usage, preserving one row per person; the next primary analyses then select the appropriate incentive arms.")
+    code('''import pandas as pd
+warehouse = json.loads((ROOT / "reports/warehouse-summary.json").read_text())
+print("Warehouse table counts:", warehouse["table_rows"])
+with sqlite3.connect(ROOT / "data/processed/study.sqlite") as connection:
+    d = pd.read_sql_query("SELECT * FROM mart_participant ORDER BY prolific_pid", connection)
+    print("Participant mart rows / unique IDs:", len(d), d.prolific_pid.nunique())
+d["primary_arm"] = d.primary_arm.astype(bool)
+assert len(d) == d.prolific_pid.nunique() == audit["retained_participants"]
+print("Warehouse integrity:", warehouse["integrity_checks"])
+''')
     md("## 1. Preserve the Assigned-Group Comparison\n\nActual AI use is a choice made after assignment, so it must not be used to select the treatment sample. The fixed-time incentive arm is excluded from the primary productivity comparison.")
     code('''with sqlite3.connect(ROOT / "data/processed/study.sqlite") as connection:
     q = """SELECT assignment, COUNT(*), ROUND(AVG(time_pre),2),
@@ -79,7 +90,7 @@ for review in (1, 2, 3, 4):
           "monthly net capacity value:", round(case["net_capacity_value_month"],2))
 print("Released capacity is not automatically cash savings.")
 ''')
-    md("![Business sensitivity](../figures/07_business_sensitivity.png)\n\n## 5. Task Extension: A Weekly Project-Status Email\n\nCompare 4, 8 and 20 eligible tasks per month with 1, 3 and 5 extra checking minutes per task, keeping other costs and the 50% transferability assumption fixed. This recalculates scenarios rather than conducting a new email experiment. All subscription and support costs are charged to this workflow; other subscription uses are not valued.")
+    md("![Business sensitivity](../figures/07_business_sensitivity.png)\n\n## 5. Task Extension: A Weekly Project-Status Email\n\nCompare 4, 8 and 20 eligible tasks per month with 1, 3 and 5 extra checking minutes. The hypothetical baseline is 10 minutes; transferred savings cannot exceed it. Additional revision is 0.5 minutes and expected rework is 20% × 3 minutes per task. Other costs and 50% transferability remain fixed. All seat/support costs are assigned to this workflow. This is a sensitivity exercise, not a new email experiment.")
     code('''from aiworkvalue.task_extension import evaluate_task_extension
 config = json.loads((ROOT / "data/scenarios/weekly_status_email.json").read_text())
 task_sql = (ROOT / "sql/extensions/weekly_status_email.sql").read_text()

@@ -14,7 +14,8 @@ def fit_record(data, formula, name, outcome, term="assignment", covariance="HC3"
     if groups is None:
         fitted=model.fit(cov_type=covariance,use_t=True)
     else:
-        fitted=model.fit(cov_type="cluster",cov_kwds={"groups":groups},use_t=True)
+        aligned_groups=pd.Series(groups,index=data.index).loc[model.data.row_labels]
+        fitted=model.fit(cov_type="cluster",cov_kwds={"groups":aligned_groups,"use_correction":True,"df_correction":True},use_t=True)
     lo,hi=fitted.conf_int().loc[term]
     return {"name":name,"outcome":outcome,"formula":formula,"term":term,"n":int(fitted.nobs),
             "coefficient":float(fitted.params[term]),"standard_error":float(fitted.bse[term]),
@@ -50,6 +51,22 @@ def run_analysis(d,grade_pairs):
                              "time_baseline_writing_score_interaction","minutes_per_baseline_point","assignment:baseline_score_centered"),
                   fit_record(hetero,f"grade_post ~ assignment * baseline_score_centered + {DESIGN}",
                              "quality_baseline_writing_score_interaction","grade_points_per_baseline_point","assignment:baseline_score_centered")]
+    for row,p in zip(interactions,multipletests([row["p_value"] for row in interactions],method="holm")[1]):
+        row["exploratory_holm_p_value"]=float(p)
+    conditional=[]
+    for outcome,formula in [("minutes",f"time_post ~ assignment * baseline_score_centered + time_pre + {DESIGN}"),
+                            ("grade_points",f"grade_post ~ assignment * baseline_score_centered + {DESIGN}")]:
+        fitted=smf.ols(formula,data=hetero).fit(cov_type="HC3",use_t=True)
+        for quantile in (.25,.5,.75):
+            score=float(hetero.grade_pre.quantile(quantile))
+            contrast=np.zeros(len(fitted.params))
+            contrast[fitted.params.index.get_loc("assignment")]=1
+            contrast[fitted.params.index.get_loc("assignment:baseline_score_centered")]=score-center
+            test=fitted.t_test(contrast)
+            interval=np.asarray(test.conf_int()).ravel()
+            conditional.append({"outcome":outcome,"baseline_quantile":quantile,"baseline_grade":score,
+                                "effect":float(np.asarray(test.effect).item()),"ci95":[float(v) for v in interval],
+                                "n":int(fitted.nobs),"status":"Exploratory pointwise contrast, not simultaneous subgroup inference."})
     groups=[]
     for label,mask in (("lower_baseline_score",hetero.grade_pre<=median),("higher_baseline_score",hetero.grade_pre>median)):
         sample=hetero[mask]
@@ -70,6 +87,6 @@ def run_analysis(d,grade_pairs):
         sd=np.sqrt((c.var(ddof=1)+t.var(ddof=1))/2)
         balance.append({"variable":variable,"control_mean":float(c.mean()),"offer_mean":float(t.mean()),"standardized_difference":float((t.mean()-c.mean())/sd)})
     return {"primary":main,"robustness":robustness,"heterogeneity":{"baseline_mean":center,"baseline_median":median,
-            "interaction_tests":interactions,"groups":groups,"status":"exploratory; not an employee allocation rule"},
+            "interaction_tests":interactions,"conditional_effects":conditional,"groups":groups,"status":"exploratory; not an employee allocation rule"},
             "descriptive_means":means,"baseline_balance":balance,"followup_assignment_contrast":follow,
             "inference":"Assignment contrasts among retained available cases; differential attrition limits full-sample ITT interpretation."}

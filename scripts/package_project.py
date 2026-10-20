@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DESTINATION = ROOT.parent / "AIWorkValue_Project.zip"
 TOP_FILES = {"README.md", "requirements.txt", "Makefile", ".gitignore",
              "LICENSE", "THIRD_PARTY_NOTICES.md"}
-DIRECTORIES = {".github", "src", "scripts", "tests", "docs", "sql", "notebooks", "reports", "figures"}
+DIRECTORIES = {".github", ".streamlit", "dashboard", "src", "scripts", "tests", "docs", "sql", "notebooks", "reports", "figures"}
 BLOCKED = {"__pycache__", ".cache", ".venv", ".git"}
 
 
@@ -18,7 +18,7 @@ def main():
         relative = path.relative_to(ROOT)
         if not path.is_file() or any(part in BLOCKED for part in relative.parts):
             continue
-        if path.suffix in {".pyc", ".zip"} or path.name == ".DS_Store":
+        if path.suffix in {".pyc", ".zip"} or path.name in {".DS_Store", "secrets.toml", ".env"}:
             continue
         if (relative.as_posix() in {"data/source-manifest.json", "data/README.md"}
                 or relative.parts[:2] == ("data", "scenarios")
